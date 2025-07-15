@@ -7,9 +7,9 @@ Welcome to my portfolio! I'm **Darren Anthony Beltham**, a passionate Full Stack
 - **Name:** Darren Anthony Beltham  
 - **Location:** Jakarta, Indonesia  
 - **Role:** Full Stack Developer  
-- **Email:** darren.beltham@example.com  
-- **GitHub:** [github.com/darrenbeltham](https://github.com/darrenbeltham)  
-- **LinkedIn:** [linkedin.com/in/darrenbeltham](https://linkedin.com/in/darrenbeltham)  
+- **Email:** darrenanthonybeltham@gmail.com  
+- **GitHub:** [github.com/darrenanthonybeltham](https://github.com/darrenanthonybeltham)  
+- **LinkedIn:** [linkedin.com/in/darrenanthonybeltham](https://linkedin.com/in/darrenanthonybeltham)  
 
 ## 💻 Skills
 
@@ -26,7 +26,7 @@ Welcome to my portfolio! I'm **Darren Anthony Beltham**, a passionate Full Stack
 
 2. **E-Commerce Platform** (MERN Stack)  
    - Full-featured e-commerce app with cart, authentication, and Stripe payments.  
-   - Source: [github.com/darrenbeltham/grailify](https://github.com/darrenbeltham/grailify)  
+   - Source: [github.com/darrenanthonybeltham/grailify](https://github.com/darrenanthonybeltham/grailify)  
 
 ## 📫 Contact Me
 
