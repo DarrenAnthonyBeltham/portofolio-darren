@@ -174,8 +174,8 @@ const ProjectDisplay = ({ project, onClick }) => (
 
 const CockpitView = ({ setView, setSelectedProject }) => {
     const projects = [
-        { id: 1, title: "Grailify", category: "Fullstack Web Development", shortName: "GLY", image: "https://placehold.co/800x600/082f49/38bdf8?text=ALPHA", description: "A comprehensive project management tool designed for agile teams, featuring real-time collaboration, task tracking, and reporting.", tech: ["React", "Tailwind CSS", "Typescript", "MySQL", "GO"] },
-        { id: 2, title: "CarShroom", category: "Frontend Web Development", shortName: "CSM", image: "https://placehold.co/800x600/082f49/38bdf8?text=ECOMM", description: "A scalable e-commerce solution with a modern UI, secure payment gateway integration via Stripe, and a powerful Firebase-backed admin dashboard.", tech: ["Next.js", "Stripe", "Firebase", "Tailwind CSS"] }
+        { id: 1, title: "Grailify", category: "Fullstack Web Development", shortName: "GLY", image: "https://placehold.co/800x600/082f49/38bdf8?text=ALPHA", description: "A comprehensive project management tool designed for agile teams, featuring real-time collaboration, task tracking, and reporting.", tech: ["React", "Tailwind CSS", "Typescript", "MySQL", "GO"], repoUrl: "https://github.com/DarrenAnthonyBeltham/Grailify" },
+        { id: 2, title: "CarShroom", category: "Frontend Web Development", shortName: "CSM", image: "https://storage.googleapis.com/garden-prod/uploaded/image_be2020.png-89abf927-ee0a-431b-ac83-1ca21ca96965", description: "A scalable e-commerce solution with a modern UI, secure payment gateway integration via Stripe, and a powerful Firebase-backed admin dashboard.", tech: ["Next.js", "Stripe", "Firebase", "Tailwind CSS"], repoUrl: "https://github.com/DarrenAnthonyBeltham/CarShroom" }
     ];
 
     return (
@@ -252,7 +252,8 @@ const ProfileView = ({ setView }) => {
         { name: "Javascript", percentage: 80 },
         { name: "UI/UX", percentage: 85 },
         { name: "MySQL", percentage: 80 },
-        { name: "Go", percentage: 80 }
+        { name: "Go", percentage: 80 },
+        { name: "PHP", percentage: 85 }
     ];
 
     return (
@@ -339,6 +340,18 @@ const ProjectView = ({ project, close }) => {
                          <motion.div variants={itemVariants} className="mt-6">
                             <h3 className="font-mono text-sky-400 text-sm">STATUS</h3>
                             <p className="text-green-400 font-medium mt-1">ONLINE / OPERATIONAL</p>
+                        </motion.div>
+                        <motion.div variants={itemVariants} className="mt-6">
+                            <h3 className="font-mono text-sky-400 text-sm">SOURCE CODE</h3>
+                            <a 
+                                href={project.repoUrl} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="inline-flex items-center gap-2 mt-2 px-4 py-2 bg-slate-800/60 border border-slate-700 rounded-lg text-white hover:bg-slate-700/80 transition-colors duration-300"
+                            >
+                                <GitHubIcon className="w-5 h-5" />
+                                <span>View on GitHub</span>
+                            </a>
                         </motion.div>
                     </div>
                 </motion.div>
