@@ -1,70 +1,37 @@
-# Getting Started with Create React App
+# Darren Anthony Beltham – Full Stack Developer Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to my portfolio! I'm **Darren Anthony Beltham**, a passionate Full Stack Developer specializing in building responsive, user-friendly web applications.
 
-## Available Scripts
+## 🚀 About Me
 
-In the project directory, you can run:
+- **Name:** Darren Anthony Beltham  
+- **Location:** Jakarta, Indonesia  
+- **Role:** Full Stack Developer  
+- **Email:** darrenanthonybeltham@gmail.com  
+- **GitHub:** [github.com/darrenanthonybeltham](https://github.com/darrenanthonybeltham)  
+- **LinkedIn:** [linkedin.com/in/darrenanthonybeltham](https://linkedin.com/in/darrenanthonybeltham)  
 
-### `npm start`
+## 💻 Skills
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend:** React.js, Tailwind CSS, HTML5, CSS3, JavaScript (ES6+)  
+- **Backend:** Node.js, Express.js, MongoDB, PostgreSQL  
+- **Tools:** Git, Docker, VS Code, REST APIs, Webpack  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📝 Projects
 
-### `npm test`
+1. **Portfolio Website** (React, Tailwind)  
+   - A personal portfolio showcasing projects and skills.  
+   - Live: [portfolio.darrenbeltham.com](https://portfolio.darrenbeltham.com)  
+   - Source: [github.com/darrenanthonybeltham/portfolio-darren](https://github.com/darrenanthonybeltham/portfolio-darren)  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **E-Commerce Platform** (MERN Stack)  
+   - Full-featured e-commerce app with cart, authentication, and Stripe payments.  
+   - Source: [github.com/darrenanthonybeltham/grailify](https://github.com/darrenanthonybeltham/grailify)  
 
-### `npm run build`
+## 📫 Contact Me
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Feel free to reach out for collaborations or job opportunities!
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Email:** darrenanthonybeltham@gmail.com 
+- **LinkedIn:** [linkedin.com/in/darrenanthonybeltham](https://linkedin.com/in/darrenanthonybeltham)  
+- **GitHub:** [github.com/darrenanthonybeltham](https://github.com/darreanthonynbeltham)  
