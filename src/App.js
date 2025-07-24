@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import grailify from './assets/Grailify.jpg';
+import carshroom from './assets/CarShroom.jpg';
+import futbol from './assets/futbol.jpg';
 
 const PowerIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>);
 const UserIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>);
@@ -174,9 +177,9 @@ const ProjectDisplay = ({ project, onClick }) => (
 
 const CockpitView = ({ setView, setSelectedProject }) => {
     const projects = [
-        { id: 1, title: "Grailify", category: "Fullstack Web Development", shortName: "GLY", image: "https://placehold.co/800x600/082f49/38bdf8?text=ALPHA", description: "A comprehensive project management tool designed for agile teams, featuring real-time collaboration, task tracking, and reporting.", tech: ["React", "Tailwind CSS", "Typescript", "MySQL", "GO"], repoUrl: "https://github.com/DarrenAnthonyBeltham/Grailify" },
-        { id: 2, title: "CarShroom", category: "Frontend Web Development", shortName: "CSM", image: "https://storage.googleapis.com/garden-prod/uploaded/image_be2020.png-89abf927-ee0a-431b-ac83-1ca21ca96965", description: "A scalable e-commerce solution with a modern UI, secure payment gateway integration via Stripe, and a powerful Firebase-backed admin dashboard.", tech: ["Next.js", "Stripe", "Firebase", "Tailwind CSS"], repoUrl: "https://github.com/DarrenAnthonyBeltham/CarShroom" },
-        { id: 3, title: "Futbol", category: "Frontend Web Development", shortName: "FBL", image: "https://storage.googleapis.com/garden-prod/uploaded/image_be2020.png-89abf927-ee0a-431b-ac83-1ca21ca96965", description: "Futbol is a modern, web-based application designed for football fans, coaches, and analysts. It provides an intuitive and visually appealing platform to build team formations, explore detailed player stats, and bring tactical ideas to life.", tech: ["React.js", "Tailwind CSS"], repoUrl: "https://github.com/DarrenAnthonyBeltham/CarShroom" }
+        { id: 1, title: "Grailify", category: "Fullstack Web Development", shortName: "GLY", image: grailify, description: "Grailify is the premier online marketplace for authentic sneakers, apparel, and collectibles. Built with a powerful Go backend and a responsive Next.js frontend.", tech: ["Mext.js", "Tailwind CSS", "Typescript", "MySQL", "GO", "JWT"], repoUrl: "https://github.com/DarrenAnthonyBeltham/Grailify" },
+        { id: 2, title: "CarShroom", category: "Fullstack Web Development", shortName: "CSM", image: carshroom, description: "This project is a sophisticated web application for a high-end luxury and performance car dealership. It features a rich, interactive frontend for customers and a robust backend API to manage products and user interactions.", tech: ["PHP", "HTML5", "CSS3", "GO"], repoUrl: "https://github.com/DarrenAnthonyBeltham/CarShroom" },
+        { id: 3, title: "Futbol", category: "Frontend Web Development", shortName: "FBL", image: futbol, description: "Futbol is a modern, web-based application designed for football fans, coaches, and analysts. It provides an intuitive and visually appealing platform to build team formations, explore detailed player stats, and bring tactical ideas to life.", tech: ["React.js", "Tailwind CSS"], repoUrl: "https://github.com/DarrenAnthonyBeltham/futbol" }
     ];
 
     return (
@@ -251,7 +254,7 @@ const ProfileView = ({ setView }) => {
         { name: "React & Tailwind", percentage: 95 },
         { name: "HTML5", percentage: 95 },
         { name: "Javascript", percentage: 80 },
-        { name: "UI/UX", percentage: 85 },
+        { name: "Figma", percentage: 85 },
         { name: "MySQL", percentage: 80 },
         { name: "Go", percentage: 80 },
         { name: "PHP", percentage: 85 }
