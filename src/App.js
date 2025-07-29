@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
-import grailify from './assets/Grailify.jpg';
-import carshroom from './assets/CarShroom.jpg';
-import futbol from './assets/futbol.jpg';
+import Grailify from './assets/Grailify.jpg';
+import CarShroom from './assets/CarShroom.jpg';
+import Futbol from './assets/futbol.jpg';
+import Muzik from './assets/Muzik.jpg';
 
 const PowerIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>);
 const UserIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>);
@@ -12,6 +13,7 @@ const CloseIcon = ({ className }) => ( <svg className={className} viewBox="0 0 2
 const GitHubIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>);
 const LinkedInIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>);
 const InstagramIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>);
+const ExternalLinkIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>);
 
 const BlackholeBackground = () => {
     const canvasRef = useRef(null);
@@ -177,9 +179,10 @@ const ProjectDisplay = ({ project, onClick }) => (
 
 const CockpitView = ({ setView, setSelectedProject }) => {
     const projects = [
-        { id: 1, title: "Grailify", category: "Fullstack Web Development", shortName: "GLY", image: grailify, description: "Grailify is the premier online marketplace for authentic sneakers, apparel, and collectibles. Built with a powerful Go backend and a responsive Next.js frontend.", tech: ["Mext.js", "Tailwind CSS", "Typescript", "MySQL", "GO", "JWT"], repoUrl: "https://github.com/DarrenAnthonyBeltham/Grailify" },
-        { id: 2, title: "CarShroom", category: "Fullstack Web Development", shortName: "CSM", image: carshroom, description: "This project is a sophisticated web application for a high-end luxury and performance car dealership. It features a rich, interactive frontend for customers and a robust backend API to manage products and user interactions.", tech: ["PHP", "HTML5", "CSS3", "GO"], repoUrl: "https://github.com/DarrenAnthonyBeltham/CarShroom" },
-        { id: 3, title: "Futbol", category: "Frontend Web Development", shortName: "FBL", image: futbol, description: "Futbol is a modern, web-based application designed for football fans, coaches, and analysts. It provides an intuitive and visually appealing platform to build team formations, explore detailed player stats, and bring tactical ideas to life.", tech: ["React.js", "Tailwind CSS"], repoUrl: "https://github.com/DarrenAnthonyBeltham/futbol" }
+        { id: 1, title: "Grailify", category: "Fullstack Web Development", shortName: "GLY", image: Grailify, description: "Grailify is the premier online marketplace for authentic sneakers, apparel, and collectibles. Built with a powerful Go backend and a responsive Next.js frontend.", tech: ["Mext.js", "Tailwind CSS", "Typescript", "MySQL", "GO", "JWT"], repoUrl: "https://github.com/DarrenAnthonyBeltham/Grailify" },
+        { id: 2, title: "CarShroom", category: "Fullstack Web Development", shortName: "CSM", image: CarShroom, description: "This project is a sophisticated web application for a high-end luxury and performance car dealership. It features a rich, interactive frontend for customers and a robust backend API to manage products and user interactions.", tech: ["PHP", "HTML5", "CSS3", "GO"], repoUrl: "https://github.com/DarrenAnthonyBeltham/CarShroom" },
+        { id: 3, title: "Futbol", category: "Frontend Web Development", shortName: "FBL", image: Futbol, description: "Futbol is a modern, web-based application designed for football fans, coaches, and analysts. It provides an intuitive and visually appealing platform to build team formations, explore detailed player stats, and bring tactical ideas to life.", tech: ["React.js", "Tailwind CSS"], repoUrl: "https://github.com/DarrenAnthonyBeltham/futbol", liveUrl: "https://futbol-dar.vercel.app/" },
+        { id: 4, title: "Muzik", category: "Frontend Web Development", shortName: "MZK", image: Muzik, description: "Muzik is a sleek and modern web application designed for music enthusiasts who want to dive deeper than the melody. It provides a clean, intuitive interface to search for any artist and explore their discography. Users can select a song to view more details, including a direct link to the full lyrics on Genius.", tech: ["React.js", "Typescript", "Tailwind CSS", "Genius API"], repoUrl: "https://github.com/DarrenAnthonyBeltham/muzik", liveUrl: "https://muzik-lyrics.vercel.app/" }
     ];
 
     return (
@@ -346,16 +349,29 @@ const ProjectView = ({ project, close }) => {
                             <p className="text-green-400 font-medium mt-1">ONLINE / OPERATIONAL</p>
                         </motion.div>
                         <motion.div variants={itemVariants} className="mt-6">
-                            <h3 className="font-mono text-sky-400 text-sm">SOURCE CODE</h3>
-                            <a 
-                                href={project.repoUrl} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="inline-flex items-center gap-2 mt-2 px-4 py-2 bg-slate-800/60 border border-slate-700 rounded-lg text-white hover:bg-slate-700/80 transition-colors duration-300"
-                            >
-                                <GitHubIcon className="w-5 h-5" />
-                                <span>View on GitHub</span>
-                            </a>
+                            <h3 className="font-mono text-sky-400 text-sm mb-2">ACCESS POINTS</h3>
+                            <div className="flex items-center gap-4">
+                                <a 
+                                    href={project.repoUrl} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800/60 border border-slate-700 rounded-lg text-white hover:bg-slate-700/80 transition-colors duration-300"
+                                >
+                                    <GitHubIcon className="w-5 h-5" />
+                                    <span>Source Code</span>
+                                </a>
+                                {project.liveUrl && (
+                                    <a 
+                                        href={project.liveUrl} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-sky-800/60 border border-sky-700 rounded-lg text-white hover:bg-sky-700/80 transition-colors duration-300"
+                                    >
+                                        <ExternalLinkIcon className="w-5 h-5" />
+                                        <span>Live Site</span>
+                                    </a>
+                                )}
+                            </div>
                         </motion.div>
                     </div>
                 </motion.div>
