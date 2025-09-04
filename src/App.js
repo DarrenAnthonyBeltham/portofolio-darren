@@ -5,6 +5,7 @@ import CarShroom from './assets/CarShroom.jpg';
 import Futbol from './assets/futbol.jpg';
 import Muzik from './assets/Muzik.jpg';
 import Planify from './assets/Planify.jpg';
+import CoinLens from './assets/CoinLens.jpg';
 
 const PowerIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>);
 const UserIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>);
@@ -185,6 +186,7 @@ const CockpitView = ({ setView, setSelectedProject }) => {
         { id: 3, title: "Futbol", category: "Frontend Web Development", shortName: "FBL", image: Futbol, description: "Futbol is a modern, web-based application designed for football fans, coaches, and analysts. It provides an intuitive and visually appealing platform to build team formations, explore detailed player stats, and bring tactical ideas to life.", tech: ["React.js", "Tailwind CSS"], repoUrl: "https://github.com/DarrenAnthonyBeltham/futbol", liveUrl: "https://futbol-dar.vercel.app/" },
         { id: 4, title: "Muzik", category: "Frontend Web Development", shortName: "MZK", image: Muzik, description: "Muzik is a sleek and modern web application designed for music enthusiasts who want to dive deeper than the melody. It provides a clean, intuitive interface to search for any artist and explore their discography. Users can select a song to view more details, including a direct link to the full lyrics on Genius.", tech: ["React.js", "Typescript", "Tailwind CSS", "Genius API"], repoUrl: "https://github.com/DarrenAnthonyBeltham/muzik", liveUrl: "https://muzik-lyrics.vercel.app/" },
         { id: 5, title: "Planify", category: "Fullstack Web Development", shortName: "PNY", image: Planify, description: "Planify is a simple yet powerful project management tool that helps teams and individuals stay organized. With Kanban boards, drag-and-drop tasks, user profiles, and smart collaboration features, Planify makes it easy to manage projects, track progress, and work together all in one clean and intuitive platform.", tech: ["Next.js", "Tailwind CSS", "Typescript", "MySQL", "GO", "JWT"], repoUrl: "https://github.com/DarrenAnthonyBeltham/planify" },
+        { id: 6, title: "CoinLens", category: "Frontend Web Development", shortName: "CLS", image: CoinLens, description: "CoinLens is a futuristic, all-in-one crypto dashboard where you can track live market data, analyze trends with interactive charts, and explore the world of digital assets through a personal watchlist, news feed, and powerful financial tools.", tech: ["Next.js", "Tailwind CSS", "Typescript"], repoUrl: "https://github.com/DarrenAnthonyBeltham/coinlens", liveUrl: "https://coinlens-phi.vercel.app/"},
     ];
 
     return (
