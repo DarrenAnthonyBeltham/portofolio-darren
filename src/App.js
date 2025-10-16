@@ -8,11 +8,8 @@ import Muzik from './assets/Muzik.jpg';
 import Planify from './assets/Planify.jpg';
 import CoinLens from './assets/CoinLens.jpg';
 
-const UserIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>);
-const CloseIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>);
 const GitHubIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>);
 const ExternalLinkIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>);
-const MenuIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" /></svg>);
 const MailIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>);
 const LinkedInIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>);
 const InstagramIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>);
@@ -74,6 +71,31 @@ const AnimatedBackground = () => {
 
 const GlassPanel = ({ children, className = '' }) => (<div className={`bg-black/20 backdrop-blur-lg border border-neutral-800/80 rounded-2xl shadow-2xl shadow-black/40 ${className}`}>{children}</div>);
 
+const AnimatedMenuButton = ({ isOpen, onClick }) => {
+    const topVariants = {
+        closed: { rotate: 0, translateY: 0 },
+        open: { rotate: 45, translateY: 8 }
+    };
+    const middleVariants = {
+        closed: { opacity: 1 },
+        open: { opacity: 0 }
+    };
+    const bottomVariants = {
+        closed: { rotate: 0, translateY: 0 },
+        open: { rotate: -45, translateY: -8 }
+    };
+
+    return (
+        <button onClick={onClick} className="w-6 h-6 relative z-50">
+            <motion.svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <motion.line x1="4" y1="6" x2="20" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round" variants={topVariants} animate={isOpen ? "open" : "closed"} />
+                <motion.line x1="4" y1="12" x2="20" y2="12" stroke="white" strokeWidth="2" strokeLinecap="round" variants={middleVariants} animate={isOpen ? "open" : "closed"} />
+                <motion.line x1="4" y1="18" x2="20" y2="18" stroke="white" strokeWidth="2" strokeLinecap="round" variants={bottomVariants} animate={isOpen ? "open" : "closed"} />
+            </motion.svg>
+        </button>
+    );
+};
+
 const Header = ({ setView }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navItems = ['Home', 'Projects', 'Profile', 'Contact'];
@@ -81,27 +103,51 @@ const Header = ({ setView }) => {
         setView(view);
         setIsMenuOpen(false);
     };
+
+    const menuVariants = {
+        hidden: { opacity: 0, y: -20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                type: 'tween',
+                duration: 0.3,
+                ease: 'easeOut',
+                staggerChildren: 0.05
+            }
+        }
+    };
+
+    const linkVariants = {
+        hidden: { opacity: 0, y: -10 },
+        visible: { opacity: 1, y: 0, transition: { type: 'tween', ease: 'easeOut' } }
+    };
+
     return (
         <header className="fixed top-0 left-0 right-0 z-50 p-4">
             <GlassPanel className="w-full max-w-6xl mx-auto px-6 py-3 flex justify-between items-center">
                 <motion.div whileHover={{ scale: 1.05 }} className="text-2xl font-bold text-white tracking-widest cursor-pointer" onClick={() => handleNavClick('hero')}>DAB</motion.div>
-                <nav className="hidden md:flex items-center gap-6">
-                    {navItems.map(item => (<button key={item} onClick={() => handleNavClick(item.toLowerCase())} className="text-neutral-300 hover:text-white transition-colors duration-300">{item}</button>))}
+                <nav className="hidden md:flex items-center gap-2">
+                    {navItems.map(item => (
+                        <motion.button key={item} onClick={() => handleNavClick(item.toLowerCase())} className="text-neutral-300 hover:text-white transition-colors duration-300 px-4 py-2 rounded-lg" whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300 }}>{item}</motion.button>
+                    ))}
                 </nav>
                 <div className="md:hidden">
-                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white z-50 relative">{isMenuOpen ? <CloseIcon className="w-6 h-6"/> : <MenuIcon className="w-6 h-6"/>}</button>
+                    <AnimatedMenuButton isOpen={isMenuOpen} onClick={() => setIsMenuOpen(!isMenuOpen)} />
                 </div>
             </GlassPanel>
             <AnimatePresence>
-            {isMenuOpen && (
-                <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }} className="md:hidden absolute top-20 left-4 right-4">
-                    <GlassPanel className="p-4">
-                        <nav className="flex flex-col items-center gap-4">
-                            {navItems.map(item => (<button key={item} onClick={() => handleNavClick(item.toLowerCase())} className="text-neutral-200 text-lg hover:text-white transition-colors w-full py-2">{item}</button>))}
-                        </nav>
-                    </GlassPanel>
-                </motion.div>
-            )}
+                {isMenuOpen && (
+                    <motion.div initial="hidden" animate="visible" exit="hidden" variants={menuVariants} className="md:hidden absolute top-20 left-4 right-4">
+                        <GlassPanel className="p-4">
+                            <nav className="flex flex-col items-center gap-4">
+                                {navItems.map(item => (
+                                    <motion.button key={item} onClick={() => handleNavClick(item.toLowerCase())} className="text-neutral-200 text-lg hover:text-white transition-colors w-full py-2" variants={linkVariants}>{item}</motion.button>
+                                ))}
+                            </nav>
+                        </GlassPanel>
+                    </motion.div>
+                )}
             </AnimatePresence>
         </header>
     )
@@ -117,10 +163,7 @@ const HeroTechStack = () => {
 
     const containerVariants = {
         hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.15, delayChildren: 0.5 }
-        }
+        visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.8 } }
     };
 
     const itemVariants = {
@@ -129,24 +172,11 @@ const HeroTechStack = () => {
     };
 
     return (
-        <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="w-full max-w-md mx-auto mt-12 flex justify-center items-center gap-4 md:gap-8 relative z-10"
-        >
+        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="w-full max-w-md mx-auto mt-12 flex justify-center items-center gap-4 md:gap-8">
             {skills.map((skill) => (
-                <motion.div
-                    key={skill.name}
-                    variants={itemVariants}
-                    className="flex flex-col items-center gap-2 text-neutral-300 cursor-pointer"
-                >
-                    <motion.div
-                        whileHover={{ scale: 1.15, y: -5 }}
-                        transition={{ type: 'spring', stiffness: 300 }}
-                        className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white/5 border border-neutral-800 rounded-full"
-                    >
-                         <skill.icon className="w-5 h-5 md:w-6 md:h-6" />
+                <motion.div key={skill.name} variants={itemVariants} className="flex flex-col items-center gap-2 text-neutral-300 cursor-pointer">
+                    <motion.div whileHover={{ scale: 1.15, y: -5 }} transition={{ type: 'spring', stiffness: 300 }} className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white/5 border border-neutral-800 rounded-full">
+                        <skill.icon className="w-5 h-5 md:w-6 md:h-6" />
                     </motion.div>
                     <p className="text-xs md:text-sm font-light">{skill.name}</p>
                 </motion.div>
@@ -156,36 +186,29 @@ const HeroTechStack = () => {
 };
 
 const HeroView = ({ setView }) => {
+    const headlineVariants = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.2, delay: 0.2 } }
+    };
+
+    const lineVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } }
+    };
+
     return (
-        <div className="w-full h-full flex flex-col items-center justify-center text-center p-4">
-            <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
-                className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tighter leading-tight relative z-10"
-            >
-                Darren Anthony Beltham
+        <div className="w-full min-h-screen flex flex-col items-center justify-center text-center p-4">
+            <motion.h1 variants={headlineVariants} initial="hidden" animate="visible" className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tighter leading-tight">
+                <motion.span variants={lineVariants} className="block">Architecting Ideas</motion.span>
+                <motion.span variants={lineVariants} className="block">Into Interactive Realities</motion.span>
             </motion.h1>
-            <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
-                className="mt-6 max-w-xl text-neutral-300 relative z-10"
-            >
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.6 }} className="mt-6 max-w-xl text-neutral-300">
                 A full-stack developer blending elegant frontend design with powerful, scalable backend systems. Explore my work and see how I turn complex problems into beautiful, intuitive digital solutions.
             </motion.p>
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.3 }}
-                className="mt-8 flex gap-4 relative z-10"
-            >
-                <button
-                    onClick={() => setView('projects')}
-                    className="bg-white text-black font-semibold px-6 py-3 rounded-lg hover:bg-neutral-200 transition-colors duration-300"
-                >
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.7 }} className="mt-8 flex gap-4">
+                <motion.button onClick={() => setView('projects')} className="bg-white text-black font-semibold px-6 py-3 rounded-lg" whileHover={{ scale: 1.05, boxShadow: "0px 0px 12px rgba(255, 255, 255, 0.4)" }} transition={{ type: 'spring', stiffness: 300 }}>
                     Discover Projects
-                </button>
+                </motion.button>
             </motion.div>
             <HeroTechStack />
         </div>
@@ -202,15 +225,17 @@ const ProjectsView = ({ setSelectedProject }) => {
         { id: 6, title: "CoinLens", category: "Frontend Web Development", image: CoinLens, description: "CoinLens is a futuristic, all-in-one crypto dashboard where you can track live market data, analyze trends with interactive charts, and explore the world of digital assets through a personal watchlist, news feed, and powerful financial tools.", tech: ["Next.js", "Tailwind CSS", "Typescript"], repoUrl: "https://github.com/DarrenAnthonyBeltham/coinlens", liveUrl: "https://coinlens-phi.vercel.app/"},
     ];
     return (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="w-full max-w-6xl mx-auto p-8 pt-32">
-            <h2 className="text-4xl font-bold text-center text-white mb-12">Projects Portfolio</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {projects.map(p => (
-                    <motion.div key={p.id} onClick={() => setSelectedProject(p)} className="bg-neutral-900/60 border border-neutral-800 rounded-xl overflow-hidden cursor-pointer group" whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}>
-                        <div className="h-40 w-full overflow-hidden"><img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /></div>
-                        <div className="p-4"><h3 className="text-lg font-bold text-white">{p.title}</h3><p className="text-sm text-neutral-400">{p.category}</p></div>
-                    </motion.div>
-                ))}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full min-h-screen flex flex-col justify-center items-center p-8">
+            <div className="w-full max-w-6xl mx-auto pt-24">
+                <h2 className="text-4xl font-bold text-center text-white mb-12">Projects Portfolio</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {projects.map(p => (
+                        <motion.div key={p.id} onClick={() => setSelectedProject(p)} className="bg-neutral-900/60 border border-neutral-800 rounded-xl overflow-hidden cursor-pointer group" whileHover={{ scale: 1.03, y:-5, transition: { duration: 0.2 } }}>
+                            <div className="h-40 w-full overflow-hidden"><img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /></div>
+                            <div className="p-4"><h3 className="text-lg font-bold text-white">{p.title}</h3><p className="text-sm text-neutral-400">{p.category}</p></div>
+                        </motion.div>
+                    ))}
+                </div>
             </div>
         </motion.div>
     );
@@ -240,7 +265,7 @@ const SkillGauge = ({ skill, percentage, inView }) => {
     );
 };
 
-const ProfileView = ({ setView }) => {
+const ProfileView = () => {
     const [inView, setInView] = useState(false);
     useEffect(() => {
         const timer = setTimeout(() => setInView(true), 100);
@@ -251,12 +276,19 @@ const ProfileView = ({ setView }) => {
         { name: "Javascript", percentage: 80 }, { name: "Figma", percentage: 85 },
         { name: "MySQL", percentage: 80 }, { name: "Go", percentage: 80 }, { name: "PHP", percentage: 85 }
     ];
+    
+    const textVariants = {
+      hidden: { opacity: 0, y: 10 },
+      visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
+    };
+
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full max-w-5xl mx-auto p-4 md:p-8 pt-32">
-            <GlassPanel className="p-8">
-                <div className="flex justify-between items-start">
-                    <div><h2 className="text-4xl font-bold text-white mb-2">SKILLS</h2><p className="text-lg text-neutral-300"></p></div>
-                </div>
+        <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }} className="w-full min-h-screen flex justify-center items-center p-4 md:p-8">
+            <GlassPanel className="p-8 max-w-5xl w-full mt-20">
+                <motion.div variants={textVariants}>
+                    <motion.h2 variants={textVariants} className="text-4xl font-bold text-white mb-2">PILOT PROFILE</motion.h2>
+                    <motion.p variants={textVariants} className="text-lg text-neutral-300">System Check: Optimal</motion.p>
+                </motion.div>
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="text-neutral-300 space-y-4 text-justify">
                         <p>I’m a sixth-semester Computer Science student who gets a real kick out of turning ideas into interactive experiences. Whether I’m prototyping a slick UI with React and Tailwind or crafting semantic, accessible layouts in HTML5, I love seeing code bloom into something you can click, scroll, and enjoy.</p>
@@ -273,7 +305,7 @@ const ProfileView = ({ setView }) => {
 
 const ProjectView = ({ project, close }) => (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <div className="absolute inset-0 bg-black/80" onClick={close}></div>
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={close}></div>
         <GlassPanel className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto">
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }} className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="p-8 border-b lg:border-b-0 lg:border-r border-neutral-800">
@@ -296,7 +328,12 @@ const ProjectView = ({ project, close }) => (
                 </div>
             </motion.div>
         </GlassPanel>
-        <motion.button onClick={close} className="absolute top-6 right-6 text-neutral-400 hover:text-white transition-colors" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1, transition: { delay: 0.3 } }}><CloseIcon className="w-7 h-7" /></motion.button>
+        <motion.button onClick={close} className="absolute top-6 right-6 text-neutral-400 hover:text-white transition-colors" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1, transition: { delay: 0.3 } }}>
+            <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 6L6 18"></path>
+                <path d="M6 6l12 12"></path>
+            </svg>
+        </motion.button>
     </motion.div>
 );
 
@@ -317,9 +354,9 @@ export default function App() {
         switch (view) {
             case 'hero': return <HeroView setView={setView} />;
             case 'projects': return <ProjectsView setSelectedProject={setSelectedProject} />;
-            case 'profile': return <ProfileView setView={setView} />;
+            case 'profile': return <ProfileView />;
             case 'contact': return (
-                <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }}>
+                <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }} className="w-full min-h-screen flex items-center justify-center p-4">
                     <GlassPanel className="p-8 text-center max-w-lg mx-auto">
                         <h2 className="text-4xl font-bold text-white mb-2">Get In Touch</h2>
                         <p className="text-neutral-300 mb-8">Let's connect. Find me on these platforms.</p>
@@ -343,7 +380,7 @@ export default function App() {
             <Header setView={setView} />
             <main className="relative z-10">
                 <AnimatePresence mode="wait">
-                    <motion.div key={view} initial={{ opacity: 0, filter: "blur(4px)" }} animate={{ opacity: 1, filter: "blur(0px)" }} exit={{ opacity: 0, filter: "blur(4px)" }} transition={{ duration: 0.5 }} className="w-full min-h-screen flex items-center justify-center">
+                    <motion.div key={view} initial={{ opacity: 0, filter: "blur(4px)" }} animate={{ opacity: 1, filter: "blur(0px)" }} exit={{ opacity: 0, filter: "blur(4px)" }} transition={{ duration: 0.5 }}>
                         {renderView()}
                     </motion.div>
                 </AnimatePresence>
