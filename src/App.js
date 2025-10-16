@@ -139,13 +139,13 @@ const Header = ({ setView }) => {
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div initial="hidden" animate="visible" exit="hidden" variants={menuVariants} className="md:hidden absolute top-20 left-4 right-4">
-                        <GlassPanel className="p-4">
-                            <nav className="flex flex-col items-center gap-4">
+                        <div className="bg-neutral-950/90 backdrop-blur-sm border border-neutral-800/80 rounded-2xl p-4">
+                            <nav className="flex flex-col items-center gap-2">
                                 {navItems.map(item => (
-                                    <motion.button key={item} onClick={() => handleNavClick(item.toLowerCase())} className="text-neutral-200 text-lg hover:text-white transition-colors w-full py-2" variants={linkVariants}>{item}</motion.button>
+                                    <motion.button key={item} onClick={() => handleNavClick(item.toLowerCase())} className="w-full py-3 text-lg font-medium text-neutral-300 transition-colors hover:bg-white/10 hover:text-white rounded-lg" variants={linkVariants}>{item}</motion.button>
                                 ))}
                             </nav>
-                        </GlassPanel>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -197,7 +197,7 @@ const HeroView = ({ setView }) => {
     };
 
     return (
-        <div className="w-full min-h-screen flex flex-col items-center justify-center text-center p-4">
+        <div className="w-full min-h-screen flex flex-col items-center justify-center text-center p-4 pt-24">
             <motion.h1 variants={headlineVariants} initial="hidden" animate="visible" className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tighter leading-tight">
                 <motion.span variants={lineVariants} className="block">Architecting Ideas</motion.span>
                 <motion.span variants={lineVariants} className="block">Into Interactive Realities</motion.span>
