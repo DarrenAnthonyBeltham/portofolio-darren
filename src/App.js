@@ -199,8 +199,7 @@ const HeroView = ({ setView }) => {
     return (
         <div className="w-full min-h-screen flex flex-col items-center justify-center text-center p-4 pt-24">
             <motion.h1 variants={headlineVariants} initial="hidden" animate="visible" className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tighter leading-tight">
-                <motion.span variants={lineVariants} className="block">Architecting Ideas</motion.span>
-                <motion.span variants={lineVariants} className="block">Into Interactive Realities</motion.span>
+                <motion.span variants={lineVariants} className="block">Darren Anthony Beltham</motion.span>
             </motion.h1>
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.6 }} className="mt-6 max-w-xl text-neutral-300">
                 A full-stack developer blending elegant frontend design with powerful, scalable backend systems. Explore my work and see how I turn complex problems into beautiful, intuitive digital solutions.
