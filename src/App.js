@@ -1,18 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 
+import HashMicroSolution from './assets/HashMicro-SolutionPage.jpeg';
+import HashMicroProduct from './assets/HashMicro-ProductPage.jpeg';
+import HashMicroAi from './assets/HashMicro-AiAgentPage.jpeg';
+import HashMicroHome from './assets/HashMicro-Homepage.jpeg';
+import TotalERPHome from './assets/TotalERP-Homepage.jpeg';
+import TotalERPProduct from './assets/TotalERP-ProductPage.jpeg';
+import EquipProduct from './assets/EQUIP-ProductPage.jpeg';
+import EquipIndustry from './assets/EQUIP-IndustryPage.jpeg';
+
 import Grailify from './assets/Grailify.jpg';
 import CarShroom from './assets/CarShroom.jpg';
 import Futbol from './assets/futbol.jpg';
 import Muzik from './assets/Muzik.jpg';
 import Planify from './assets/Planify.jpg';
 import CoinLens from './assets/CoinLens.jpg';
+import BoxQ from './assets/BoxQ.jpeg';
 
 const GitHubIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>);
 const ExternalLinkIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>);
 const MailIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>);
 const LinkedInIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>);
 const InstagramIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>);
+const CloseIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>);
 
 const FigmaIcon = ({ className }) => (<svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z" /><path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z" /><path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z" /><path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z" /><path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z" /></svg>);
 const ReactIcon = ({ className }) => (<svg className={className} viewBox="-11.5 -10.23174 23 20.46348" fill="none" stroke="currentColor" strokeWidth="1"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg>);
@@ -98,7 +109,7 @@ const AnimatedMenuButton = ({ isOpen, onClick }) => {
 
 const Header = ({ setView }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const navItems = ['Home', 'Projects', 'Profile', 'Contact'];
+    const navItems = ['Home', 'Projects', 'Experience', 'Showcase', 'Profile', 'Contact'];
     const handleNavClick = (view) => {
         setView(view);
         setIsMenuOpen(false);
@@ -222,6 +233,8 @@ const ProjectsView = ({ setSelectedProject }) => {
         { id: 4, title: "Muzik", category: "Frontend Web Development", image: Muzik, description: "Muzik is a sleek and modern web application designed for music enthusiasts who want to dive deeper than the melody. It provides a clean, intuitive interface to search for any artist and explore their discography.", tech: ["React.js", "Typescript", "Tailwind CSS", "Genius API"], repoUrl: "https://github.com/DarrenAnthonyBeltham/muzik", liveUrl: "https://muzik-lyrics.vercel.app/" },
         { id: 5, title: "Planify", category: "Fullstack Web Development", image: Planify, description: "Planify is a simple yet powerful project management tool that helps teams and individuals stay organized. With Kanban boards, drag-and-drop tasks, user profiles, and smart collaboration features, Planify makes it easy to manage projects.", tech: ["Next.js", "Tailwind CSS", "Typescript", "MySQL", "GO", "JWT"], repoUrl: "https://github.com/DarrenAnthonyBeltham/planify" },
         { id: 6, title: "CoinLens", category: "Frontend Web Development", image: CoinLens, description: "CoinLens is a futuristic, all-in-one crypto dashboard where you can track live market data, analyze trends with interactive charts, and explore the world of digital assets through a personal watchlist, news feed, and powerful financial tools.", tech: ["Next.js", "Tailwind CSS", "Typescript"], repoUrl: "https://github.com/DarrenAnthonyBeltham/coinlens", liveUrl: "https://coinlens-phi.vercel.app/"},
+        { id: 7, title: "BoxQ", category: "Fullstack Web Development", image: BoxQ, description: "BoxQ is an automated procurement and requisition platform that streamlines corporate purchasing. It features AI-powered OCR for intelligent invoice scanning, secure multi-tier approvals, and automated payment disbursements to enforce strict financial compliance.", tech: ["Vue.js", "TypeScript", "Laravel", "MongoDB", "Mindee AI", "Xendit API"], repoUrl: "https://github.com/DarrenAnthonyBeltham/boxq" 
+}
     ];
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full min-h-screen flex flex-col justify-center items-center p-8">
@@ -265,15 +278,19 @@ const SkillGauge = ({ skill, percentage, inView }) => {
 };
 
 const ProfileView = () => {
-    const [inView, setInView] = useState(false);
-    useEffect(() => {
-        const timer = setTimeout(() => setInView(true), 100);
-        return () => clearTimeout(timer);
-    }, []);
-    const skills = [
-        { name: "React & Tailwind", percentage: 95 }, { name: "HTML5", percentage: 95 },
-        { name: "Javascript", percentage: 80 }, { name: "Figma", percentage: 85 },
-        { name: "MySQL", percentage: 80 }, { name: "Go", percentage: 80 }, { name: "PHP", percentage: 85 }
+    const skillCategories = [
+        {
+            title: "Frontend Development",
+            skills: ["React", "Next.js", "Vue.js", "Tailwind CSS", "JavaScript", "HTML5", "Bootstrap"]
+        },
+        {
+            title: "Backend & Database",
+            skills: ["Go", "PHP", "Laravel", "MySQL", "Supabase"]
+        },
+        {
+            title: "CMS & Design Tools",
+            skills: ["WordPress", "Figma"]
+        }
     ];
     
     const textVariants = {
@@ -281,23 +298,137 @@ const ProfileView = () => {
       visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
     };
 
-    return (
+     return (
         <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }} className="w-full min-h-screen flex justify-center items-center p-4 md:p-8">
             <GlassPanel className="p-8 max-w-5xl w-full mt-20">
                 <motion.div variants={textVariants}>
                     <motion.h2 variants={textVariants} className="text-4xl font-bold text-white mb-2">PILOT PROFILE</motion.h2>
                     <motion.p variants={textVariants} className="text-lg text-neutral-300">System Check: Optimal</motion.p>
                 </motion.div>
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div className="text-neutral-300 space-y-4 text-justify">
-                        <p>I’m a sixth-semester Computer Science student who gets a real kick out of turning ideas into interactive experiences. Whether I’m prototyping a slick UI with React and Tailwind or crafting semantic, accessible layouts in HTML5, I love seeing code bloom into something you can click, scroll, and enjoy.</p>
-                        <p>On the backend, I roll up my sleeves with Go to build fast, clean APIs and lean on MySQL to keep data organized and reliable. Every project is a chance to learn something new, and I’m happiest when I can blend creativity and logic into a product that people genuinely enjoy using.</p>
+                        <p>I’m a final-semester Computer Science student <strong>(Current GPA: 3.62)</strong> awaiting graduation, with a genuine passion for building clean, user-centric web applications. I specialize in bridging the gap between design and engineering, transforming complex requirements into intuitive, highly interactive interfaces using React and Tailwind CSS.</p>
+                        <p>Beyond the frontend, I have hands-on experience architecting reliable backend systems and RESTful APIs using Go and MySQL. I approach every project with a problem-solving mindset, striving to write efficient, maintainable code.</p>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                        {skills.map(skill => <SkillGauge key={skill.name} skill={skill.name} percentage={skill.percentage} inView={inView} />)}
+                    <div className="flex flex-col gap-6">
+                        {skillCategories.map(cat => (
+                            <div key={cat.title}>
+                                <h3 className="text-sm font-mono text-neutral-500 mb-3 uppercase tracking-wider">{cat.title}</h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {cat.skills.map(skill => (
+                                        <motion.span
+                                            key={skill}
+                                            whileHover={{ scale: 1.05, y: -2 }}
+                                            className="bg-neutral-800/50 border border-neutral-700 text-sky-300 px-3 py-1.5 rounded-md text-sm font-medium shadow-sm cursor-default"
+                                        >
+                                            {skill}
+                                        </motion.span>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </GlassPanel>
+        </motion.div>
+    );
+};
+
+const ExperienceView = () => {
+    const textVariants = {
+      hidden: { opacity: 0, y: 10 },
+      visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
+    };
+
+    return (
+        <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }} className="w-full min-h-screen flex justify-center items-center p-4 md:p-8">
+            <GlassPanel className="p-8 max-w-4xl w-full mt-20">
+                <motion.div variants={textVariants}>
+                    <motion.h2 variants={textVariants} className="text-4xl font-bold text-white mb-2">EXPERIENCE</motion.h2>
+                    <motion.p variants={textVariants} className="text-lg text-neutral-400">Professional Work History</motion.p>
+                </motion.div>
+
+                <div className="mt-12 relative border-l-2 border-neutral-800 ml-4 md:ml-6">
+                    <div className="mb-10 ml-8 relative">
+                        <div className="absolute w-5 h-5 bg-black border-2 border-white rounded-full -left-[43px] top-1"></div>
+                        <h3 className="text-2xl font-bold text-white">Web Developer Intern</h3>
+                        <p className="text-neutral-400 font-mono mt-1 mb-4">1 Year Duration</p>
+                        
+                        <p className="text-neutral-300 text-justify mb-4 leading-relaxed">
+                            During my one-year internship, I dove headfirst into real-world web development, focusing heavily on performance and user experience. I built, debugged, and redesigned web pages from the ground up, ensuring they were fully responsive and lightning-fast. A huge part of my day-to-day was tackling PageSpeed optimization, specifically fine-tuning Core Web Vitals like LCP to keep the sites ranking high and running smoothly.
+                        </p>
+                        <p className="text-neutral-300 text-justify mb-6 leading-relaxed">
+                            I also worked closely cross-departmentally, building custom WordPress and PHP snippets to make life easier for our Content Writers and SEO teams. Ultimately, I was trusted to manage and optimize HashMicro’s main 'moneysites' and regional blogs across five different markets (Indonesia, Singapore, Malaysia, the Philippines, and Australia), as well as handling the web presence for their child brands like Total ERP and EQUIP.
+                        </p>
+                        
+                        <div>
+                            <h4 className="text-sm font-mono text-neutral-500 mb-3">DEPLOYED TECHNOLOGIES</h4>
+                            <div className="flex flex-wrap gap-2">
+                                {["WordPress", "PHP", "JavaScript", "HTML5", "CSS3"].map(tech => (
+                                    <span key={tech} className="bg-neutral-800 border border-neutral-700 text-neutral-200 px-3 py-1 rounded-full text-xs font-medium">
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </GlassPanel>
+        </motion.div>
+    );
+};
+
+const ShowcaseView = ({ setSelectedImage }) => {
+    const categories = [
+        {
+            title: "Moneysites (HashMicro)",
+            description: "High-conversion landing pages and product showcases.",
+            images: [HashMicroHome, HashMicroProduct, HashMicroSolution, HashMicroAi]
+        },
+        {
+            title: "WordPress Blogs (TotalERP & EQUIP)",
+            description: "Custom WordPress platforms with seamless integrations.",
+            docsLink: "https://docs.google.com/document/d/1GStjjdS5DLBruSzykAdbTUv-J3NPsT3w2HrOLNM2YUg/edit?usp=sharing",
+            images: [
+                TotalERPHome, TotalERPProduct, EquipProduct, EquipIndustry,
+            ]
+        }
+    ];
+
+    return (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full min-h-screen flex flex-col items-center p-4 md:p-8 pt-24">
+            <div className="w-full max-w-7xl mx-auto">
+                <h2 className="text-4xl font-bold text-center text-white mb-12">Visual Showcase</h2>
+                {categories.map((cat, idx) => (
+                    <div key={idx} className="mb-16">
+                        <div className="mb-8 border-b border-neutral-800 pb-4">
+                            <h3 className="text-3xl font-semibold text-sky-400 mb-2">{cat.title}</h3>
+                            <p className="text-neutral-400">{cat.description}</p>
+                            {cat.docsLink && (
+                                <a href={cat.docsLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 mt-4 bg-sky-900/40 border border-sky-700/50 text-sky-300 rounded-lg hover:bg-sky-800/50 transition-colors text-sm font-medium">
+                                    <ExternalLinkIcon className="w-4 h-4" />
+                                    <span>View Documentation</span>
+                                </a>
+                            )}
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {cat.images.map((img, imgIdx) => (
+                                <motion.div
+                                    key={imgIdx}
+                                    whileHover={{ scale: 1.03, y: -5 }}
+                                    className="aspect-video bg-neutral-900 rounded-xl overflow-hidden cursor-pointer border border-neutral-800 shadow-lg group relative"
+                                    onClick={() => setSelectedImage(img)}
+                                >
+                                    <img src={img} alt={`${cat.title} ${imgIdx + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                        <span className="opacity-0 group-hover:opacity-100 text-white font-medium bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm transition-opacity duration-300">Expand</span>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
         </motion.div>
     );
 };
@@ -328,17 +459,27 @@ const ProjectView = ({ project, close }) => (
             </motion.div>
         </GlassPanel>
         <motion.button onClick={close} className="absolute top-6 right-6 text-neutral-400 hover:text-white transition-colors" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1, transition: { delay: 0.3 } }}>
-            <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 6L6 18"></path>
-                <path d="M6 6l12 12"></path>
-            </svg>
+            <CloseIcon className="w-8 h-8" />
         </motion.button>
+    </motion.div>
+);
+
+const ImageModal = ({ image, close }) => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+        <div className="absolute inset-0 bg-black/95 backdrop-blur-md cursor-pointer" onClick={close}></div>
+        <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="relative w-full max-w-7xl h-full flex items-center justify-center pointer-events-none">
+            <img src={image} alt="Expanded view" className="max-w-full max-h-full object-contain rounded-xl shadow-2xl pointer-events-auto" />
+        </motion.div>
+        <button onClick={close} className="absolute top-6 right-6 text-neutral-400 hover:text-white z-10 pointer-events-auto bg-black/50 p-2 rounded-full backdrop-blur-sm transition-colors">
+            <CloseIcon className="w-8 h-8" />
+        </button>
     </motion.div>
 );
 
 export default function App() {
     const [view, setView] = useState('hero');
     const [selectedProject, setSelectedProject] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const renderView = () => {
         const socialLinks = [
@@ -353,6 +494,8 @@ export default function App() {
         switch (view) {
             case 'hero': return <HeroView setView={setView} />;
             case 'projects': return <ProjectsView setSelectedProject={setSelectedProject} />;
+            case 'experience': return <ExperienceView />;
+            case 'showcase': return <ShowcaseView setSelectedImage={setSelectedImage} />;
             case 'profile': return <ProfileView />;
             case 'contact': return (
                 <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }} className="w-full min-h-screen flex items-center justify-center p-4">
@@ -361,7 +504,7 @@ export default function App() {
                         <p className="text-neutral-300 mb-8">Let's connect. Find me on these platforms.</p>
                         <motion.div className="flex justify-center gap-6" variants={containerVariants}>
                             {socialLinks.map(({ href, Icon }) => (
-                                <motion.a key={href} href={href} target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-sky-300" variants={itemVariants} whileHover={{ y: -5, scale: 1.1 }} transition={{ type: 'spring', stiffness: 300 }}>
+                                <motion.a key={href} href={href} target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white" variants={itemVariants} whileHover={{ y: -5, scale: 1.1 }} transition={{ type: 'spring', stiffness: 300 }}>
                                     <Icon className="w-8 h-8" />
                                 </motion.a>
                             ))}
@@ -385,6 +528,9 @@ export default function App() {
                 </AnimatePresence>
                 <AnimatePresence>
                     {selectedProject && <ProjectView project={selectedProject} close={() => setSelectedProject(null)} />}
+                </AnimatePresence>
+                <AnimatePresence>
+                    {selectedImage && <ImageModal image={selectedImage} close={() => setSelectedImage(null)} />}
                 </AnimatePresence>
             </main>
         </div>
