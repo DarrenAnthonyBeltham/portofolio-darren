@@ -929,7 +929,7 @@ const ProfileSection = () => (
           {[
             { title: 'Frontend', skills: ['React','Next.js','Vue.js','Tailwind', 'Bootstrap', 'JavaScript','HTML5'] },
             { title: 'Backend',  skills: ['Go','PHP','Laravel','MySQL','Supabase', 'MongoDB'] },
-            { title: 'Tools',    skills: ['WordPress','Figma','Git','PageSpeed'] },
+            { title: 'Tools',    skills: ['WordPress','Figma','Git','PageSpeed', 'Docker', 'VS Code', 'REST APIs', 'Webpack'] },
           ].map((block, i) => (
             <motion.div
               key={i}
