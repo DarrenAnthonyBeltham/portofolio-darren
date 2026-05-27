@@ -1,514 +1,728 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 
-import HashMicroSolution from './assets/HashMicro-SolutionPage.jpeg';
-import HashMicroProduct from './assets/HashMicro-ProductPage.jpeg';
-import HashMicroAi from './assets/HashMicro-AiAgentPage.jpeg';
-import HashMicroHome from './assets/HashMicro-Homepage.jpeg';
-import TotalERPHome from './assets/TotalERP-Homepage.jpeg';
-import TotalERPProduct from './assets/TotalERP-ProductPage.jpeg';
-import EquipProduct from './assets/EQUIP-ProductPage.jpeg';
-import EquipIndustry from './assets/EQUIP-IndustryPage.jpeg';
+import GrailifyImg from './assets/Grailify.jpg';
+import CarShroomImg from './assets/CarShroom.jpg';
+import FutbolImg from './assets/futbol.jpg';
+import MuzikImg from './assets/Muzik.jpg';
+import PlanifyImg from './assets/Planify.jpg';
+import CoinLensImg from './assets/CoinLens.jpg';
+import BoxQImg from './assets/BoxQ.jpeg';
 
-import Grailify from './assets/Grailify.jpg';
-import CarShroom from './assets/CarShroom.jpg';
-import Futbol from './assets/futbol.jpg';
-import Muzik from './assets/Muzik.jpg';
-import Planify from './assets/Planify.jpg';
-import CoinLens from './assets/CoinLens.jpg';
-import BoxQ from './assets/BoxQ.jpeg';
+import HashMicroSolutionImg from './assets/HashMicro-SolutionPage.jpeg';
+import HashMicroProductImg from './assets/HashMicro-ProductPage.jpeg';
+import HashMicroAiImg from './assets/HashMicro-AiAgentPage.jpeg';
+import HashMicroHomeImg from './assets/HashMicro-Homepage.jpeg';
+import TotalERPHomeImg from './assets/TotalERP-Homepage.jpeg';
+import TotalERPProductImg from './assets/TotalERP-ProductPage.jpeg';
+import EquipProductImg from './assets/EQUIP-ProductPage.jpeg';
+import EquipIndustryImg from './assets/EQUIP-IndustryPage.jpeg';
 
-const GitHubIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>);
-const ExternalLinkIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>);
-const MailIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>);
-const LinkedInIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>);
-const InstagramIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>);
-const CloseIcon = ({ className }) => ( <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>);
-
-const FigmaIcon = ({ className }) => (<svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z" /><path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z" /><path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z" /><path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z" /><path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z" /></svg>);
-const ReactIcon = ({ className }) => (<svg className={className} viewBox="-11.5 -10.23174 23 20.46348" fill="none" stroke="currentColor" strokeWidth="1"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg>);
-const GoLangIcon = ({ className }) => (<svg className={className} viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M52.63 12.33a8.63 8.63 0 00-8.63 8.62v3.83H32.6a8.62 8.62 0 00-8.62 8.62V94.86a8.63 8.63 0 008.62 8.63h62.78a8.63 8.63 0 008.62-8.63V33.4a8.62 8.62 0 00-8.62-8.62H61.25V20.95a8.62 8.62 0 00-8.62-8.62z" fill="#00ADD8"/><path d="M48.25 51a3.83 3.83 0 000 7.65h31.5a3.83 3.83 0 000-7.65z" fill="#fff"/><path d="M48.25 66.33a3.82 3.82 0 100 7.64h31.5a3.82 3.82 0 100-7.64z" fill="#fff"/></svg>);
-const NextIcon = ({ className }) => (<svg className={className} viewBox="0 0 128 128" fill="none"><path d="M64 128C99.3462 128 128 99.3462 128 64C128 28.6538 99.3462 0 64 0C28.6538 0 0 28.6538 0 64C0 99.3462 28.6538 128 64 128Z" fill="black"/><path d="M101.962 103.81L42.2641 40H32V92H42.2641V52.812L90.7547 103.81C94.6792 106.623 100.245 106.132 101.962 103.81Z" fill="white"/><path d="M96 40H85.7358V92H96V40Z" fill="white"/></svg>);
-
-const AnimatedBackground = () => {
-    const canvasRef = useRef(null);
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        let animationFrameId;
-        let nodes = [];
-        const resizeCanvas = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-        const createNodes = () => {
-            const nodeCount = Math.floor((canvas.width * canvas.height) / 15000);
-            nodes = [];
-            for (let i = 0; i < nodeCount; i++) {
-                nodes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5, radius: Math.random() * 1.5 + 1, pulse: Math.random() * Math.PI * 2 });
-            }
-        };
-        const animate = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const now = Date.now() / 300;
-            nodes.forEach(node => {
-                node.x += node.vx;
-                node.y += node.vy;
-                if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
-                if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
-                const pulseFactor = (Math.sin(node.pulse + now) + 1) / 2;
-                const radius = node.radius + pulseFactor * 1.5;
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(150, 180, 255, ${0.4 + pulseFactor * 0.4})`;
-                ctx.fill();
-            });
-            animationFrameId = requestAnimationFrame(animate);
-        };
-        const init = () => {
-            resizeCanvas();
-            createNodes();
-            animate();
-        };
-        init();
-        window.addEventListener('resize', init);
-        return () => {
-            window.removeEventListener('resize', init);
-            cancelAnimationFrame(animationFrameId);
-        };
-    }, []);
-    return <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0" />;
-};
-
-const GlassPanel = ({ children, className = '' }) => (<div className={`bg-black/20 backdrop-blur-lg border border-neutral-800/80 rounded-2xl shadow-2xl shadow-black/40 ${className}`}>{children}</div>);
-
-const AnimatedMenuButton = ({ isOpen, onClick }) => {
-    const topVariants = {
-        closed: { rotate: 0, translateY: 0 },
-        open: { rotate: 45, translateY: 8 }
-    };
-    const middleVariants = {
-        closed: { opacity: 1 },
-        open: { opacity: 0 }
-    };
-    const bottomVariants = {
-        closed: { rotate: 0, translateY: 0 },
-        open: { rotate: -45, translateY: -8 }
-    };
-
-    return (
-        <button onClick={onClick} className="w-6 h-6 relative z-50">
-            <motion.svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <motion.line x1="4" y1="6" x2="20" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round" variants={topVariants} animate={isOpen ? "open" : "closed"} />
-                <motion.line x1="4" y1="12" x2="20" y2="12" stroke="white" strokeWidth="2" strokeLinecap="round" variants={middleVariants} animate={isOpen ? "open" : "closed"} />
-                <motion.line x1="4" y1="18" x2="20" y2="18" stroke="white" strokeWidth="2" strokeLinecap="round" variants={bottomVariants} animate={isOpen ? "open" : "closed"} />
-            </motion.svg>
-        </button>
-    );
-};
-
-const Header = ({ setView }) => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const navItems = ['Home', 'Projects', 'Experience', 'Showcase', 'Profile', 'Contact'];
-    const handleNavClick = (view) => {
-        setView(view);
-        setIsMenuOpen(false);
-    };
-
-    const menuVariants = {
-        hidden: { opacity: 0, y: -20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                type: 'tween',
-                duration: 0.3,
-                ease: 'easeOut',
-                staggerChildren: 0.05
-            }
-        }
-    };
-
-    const linkVariants = {
-        hidden: { opacity: 0, y: -10 },
-        visible: { opacity: 1, y: 0, transition: { type: 'tween', ease: 'easeOut' } }
-    };
-
-    return (
-        <header className="fixed top-0 left-0 right-0 z-50 p-4">
-            <GlassPanel className="w-full max-w-6xl mx-auto px-6 py-3 flex justify-between items-center">
-                <motion.div whileHover={{ scale: 1.05 }} className="text-2xl font-bold text-white tracking-widest cursor-pointer" onClick={() => handleNavClick('hero')}>DAB</motion.div>
-                <nav className="hidden md:flex items-center gap-2">
-                    {navItems.map(item => (
-                        <motion.button key={item} onClick={() => handleNavClick(item.toLowerCase())} className="text-neutral-300 hover:text-white transition-colors duration-300 px-4 py-2 rounded-lg" whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300 }}>{item}</motion.button>
-                    ))}
-                </nav>
-                <div className="md:hidden">
-                    <AnimatedMenuButton isOpen={isMenuOpen} onClick={() => setIsMenuOpen(!isMenuOpen)} />
-                </div>
-            </GlassPanel>
-            <AnimatePresence>
-                {isMenuOpen && (
-                    <motion.div initial="hidden" animate="visible" exit="hidden" variants={menuVariants} className="md:hidden absolute top-20 left-4 right-4">
-                        <div className="bg-neutral-950/90 backdrop-blur-sm border border-neutral-800/80 rounded-2xl p-4">
-                            <nav className="flex flex-col items-center gap-2">
-                                {navItems.map(item => (
-                                    <motion.button key={item} onClick={() => handleNavClick(item.toLowerCase())} className="w-full py-3 text-lg font-medium text-neutral-300 transition-colors hover:bg-white/10 hover:text-white rounded-lg" variants={linkVariants}>{item}</motion.button>
-                                ))}
-                            </nav>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </header>
-    )
-}
-
-const HeroTechStack = () => {
-    const skills = [
-        { name: "React", icon: ReactIcon },
-        { name: "Go", icon: GoLangIcon },
-        { name: "Next.js", icon: NextIcon },
-        { name: "Figma", icon: FigmaIcon },
-    ];
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.8 } }
-    };
-
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1, transition: { type: 'spring' } }
-    };
-
-    return (
-        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="w-full max-w-md mx-auto mt-12 flex justify-center items-center gap-4 md:gap-8">
-            {skills.map((skill) => (
-                <motion.div key={skill.name} variants={itemVariants} className="flex flex-col items-center gap-2 text-neutral-300 cursor-pointer">
-                    <motion.div whileHover={{ scale: 1.15, y: -5 }} transition={{ type: 'spring', stiffness: 300 }} className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white/5 border border-neutral-800 rounded-full">
-                        <skill.icon className="w-5 h-5 md:w-6 md:h-6" />
-                    </motion.div>
-                    <p className="text-xs md:text-sm font-light">{skill.name}</p>
-                </motion.div>
-            ))}
-        </motion.div>
-    );
-};
-
-const HeroView = ({ setView }) => {
-    const headlineVariants = {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { staggerChildren: 0.2, delay: 0.2 } }
-    };
-
-    const lineVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } }
-    };
-
-    return (
-        <div className="w-full min-h-screen flex flex-col items-center justify-center text-center p-4 pt-24">
-            <motion.h1 variants={headlineVariants} initial="hidden" animate="visible" className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tighter leading-tight">
-                <motion.span variants={lineVariants} className="block">Darren Anthony Beltham</motion.span>
-            </motion.h1>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.6 }} className="mt-6 max-w-xl text-neutral-300">
-                A full-stack developer blending elegant frontend design with powerful, scalable backend systems. Explore my work and see how I turn complex problems into beautiful, intuitive digital solutions.
-            </motion.p>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.7 }} className="mt-8 flex gap-4">
-                <motion.button onClick={() => setView('projects')} className="bg-white text-black font-semibold px-6 py-3 rounded-lg" whileHover={{ scale: 1.05, boxShadow: "0px 0px 12px rgba(255, 255, 255, 0.4)" }} transition={{ type: 'spring', stiffness: 300 }}>
-                    Discover Projects
-                </motion.button>
-            </motion.div>
-            <HeroTechStack />
-        </div>
-    );
-};
-
-const ProjectsView = ({ setSelectedProject }) => {
-    const projects = [
-        { id: 1, title: "Grailify", category: "Fullstack Web Development", image: Grailify, description: "Grailify is the premier online marketplace for authentic sneakers, apparel, and collectibles. Built with a powerful Go backend and a responsive Next.js frontend.", tech: ["Next.js", "Tailwind CSS", "Typescript", "MySQL", "GO", "JWT"], repoUrl: "https://github.com/DarrenAnthonyBeltham/Grailify" },
-        { id: 2, title: "CarShroom", category: "Fullstack Web Development", image: CarShroom, description: "This project is a sophisticated web application for a high-end luxury and performance car dealership. It features a rich, interactive frontend for customers and a robust backend API to manage products and user interactions.", tech: ["PHP", "HTML5", "CSS3", "GO"], repoUrl: "https://github.com/DarrenAnthonyBeltham/CarShroom" },
-        { id: 3, title: "Futbol", category: "Frontend Web Development", image: Futbol, description: "Futbol is a modern, web-based application designed for football fans, coaches, and analysts. It provides an intuitive and visually appealing platform to build team formations, explore detailed player stats, and bring tactical ideas to life.", tech: ["React.js", "Tailwind CSS"], repoUrl: "https://github.com/DarrenAnthonyBeltham/futbol", liveUrl: "https://futbol-dar.vercel.app/" },
-        { id: 4, title: "Muzik", category: "Frontend Web Development", image: Muzik, description: "Muzik is a sleek and modern web application designed for music enthusiasts who want to dive deeper than the melody. It provides a clean, intuitive interface to search for any artist and explore their discography.", tech: ["React.js", "Typescript", "Tailwind CSS", "Genius API"], repoUrl: "https://github.com/DarrenAnthonyBeltham/muzik", liveUrl: "https://muzik-lyrics.vercel.app/" },
-        { id: 5, title: "Planify", category: "Fullstack Web Development", image: Planify, description: "Planify is a simple yet powerful project management tool that helps teams and individuals stay organized. With Kanban boards, drag-and-drop tasks, user profiles, and smart collaboration features, Planify makes it easy to manage projects.", tech: ["Next.js", "Tailwind CSS", "Typescript", "MySQL", "GO", "JWT"], repoUrl: "https://github.com/DarrenAnthonyBeltham/planify" },
-        { id: 6, title: "CoinLens", category: "Frontend Web Development", image: CoinLens, description: "CoinLens is a futuristic, all-in-one crypto dashboard where you can track live market data, analyze trends with interactive charts, and explore the world of digital assets through a personal watchlist, news feed, and powerful financial tools.", tech: ["Next.js", "Tailwind CSS", "Typescript"], repoUrl: "https://github.com/DarrenAnthonyBeltham/coinlens", liveUrl: "https://coinlens-phi.vercel.app/"},
-        { id: 7, title: "BoxQ", category: "Fullstack Web Development", image: BoxQ, description: "BoxQ is an automated procurement and requisition platform that streamlines corporate purchasing. It features AI-powered OCR for intelligent invoice scanning, secure multi-tier approvals, and automated payment disbursements to enforce strict financial compliance.", tech: ["Vue.js", "TypeScript", "Laravel", "MongoDB", "Mindee AI", "Xendit API"], repoUrl: "https://github.com/DarrenAnthonyBeltham/boxq" 
-}
-    ];
-    return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full min-h-screen flex flex-col justify-center items-center p-8">
-            <div className="w-full max-w-6xl mx-auto pt-24">
-                <h2 className="text-4xl font-bold text-center text-white mb-12">Projects Portfolio</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {projects.map(p => (
-                        <motion.div key={p.id} onClick={() => setSelectedProject(p)} className="bg-neutral-900/60 border border-neutral-800 rounded-xl overflow-hidden cursor-pointer group" whileHover={{ scale: 1.03, y:-5, transition: { duration: 0.2 } }}>
-                            <div className="h-40 w-full overflow-hidden"><img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" /></div>
-                            <div className="p-4"><h3 className="text-lg font-bold text-white">{p.title}</h3><p className="text-sm text-neutral-400">{p.category}</p></div>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-        </motion.div>
-    );
-};
-
-const ProfileView = () => {
-    const skillCategories = [
-        {
-            title: "Frontend Development",
-            skills: ["React", "Next.js", "Vue.js", "Tailwind CSS", "JavaScript", "HTML5", "Bootstrap"]
-        },
-        {
-            title: "Backend & Database",
-            skills: ["Go", "PHP", "Laravel", "MySQL", "Supabase"]
-        },
-        {
-            title: "CMS & Design Tools",
-            skills: ["WordPress", "Figma"]
-        }
-    ];
-    
-    const textVariants = {
-      hidden: { opacity: 0, y: 10 },
-      visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
-    };
-
-     return (
-        <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }} className="w-full min-h-screen flex justify-center items-center p-4 md:p-8">
-            <GlassPanel className="p-8 max-w-5xl w-full mt-20">
-                <motion.div variants={textVariants}>
-                    <motion.h2 variants={textVariants} className="text-4xl font-bold text-white mb-2">PILOT PROFILE</motion.h2>
-                    <motion.p variants={textVariants} className="text-lg text-neutral-300">System Check: Optimal</motion.p>
-                </motion.div>
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div className="text-neutral-300 space-y-4 text-justify">
-                        <p>I’m a final-semester Computer Science student <strong>(Current GPA: 3.62)</strong> awaiting graduation, with a genuine passion for building clean, user-centric web applications. I specialize in bridging the gap between design and engineering, transforming complex requirements into intuitive, highly interactive interfaces using React and Tailwind CSS.</p>
-                        <p>Beyond the frontend, I have hands-on experience architecting reliable backend systems and RESTful APIs using Go and MySQL. I approach every project with a problem-solving mindset, striving to write efficient, maintainable code.</p>
-                    </div>
-                    <div className="flex flex-col gap-6">
-                        {skillCategories.map(cat => (
-                            <div key={cat.title}>
-                                <h3 className="text-sm font-mono text-neutral-500 mb-3 uppercase tracking-wider">{cat.title}</h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {cat.skills.map(skill => (
-                                        <motion.span
-                                            key={skill}
-                                            whileHover={{ scale: 1.05, y: -2 }}
-                                            className="bg-neutral-800/50 border border-neutral-700 text-sky-300 px-3 py-1.5 rounded-md text-sm font-medium shadow-sm cursor-default"
-                                        >
-                                            {skill}
-                                        </motion.span>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </GlassPanel>
-        </motion.div>
-    );
-};
-
-const ExperienceView = () => {
-    const textVariants = {
-      hidden: { opacity: 0, y: 10 },
-      visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
-    };
-
-    return (
-        <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }} className="w-full min-h-screen flex justify-center items-center p-4 md:p-8">
-            <GlassPanel className="p-8 max-w-4xl w-full mt-20">
-                <motion.div variants={textVariants}>
-                    <motion.h2 variants={textVariants} className="text-4xl font-bold text-white mb-2">EXPERIENCE</motion.h2>
-                    <motion.p variants={textVariants} className="text-lg text-neutral-400">Professional Work History</motion.p>
-                </motion.div>
-
-                <div className="mt-12 relative border-l-2 border-neutral-800 ml-4 md:ml-6">
-                    <div className="mb-10 ml-8 relative">
-                        <div className="absolute w-5 h-5 bg-black border-2 border-white rounded-full -left-[43px] top-1"></div>
-                        <h3 className="text-2xl font-bold text-white">Web Developer Intern</h3>
-                        <p className="text-neutral-400 font-mono mt-1 mb-4">1 Year Duration</p>
-                        
-                        <p className="text-neutral-300 text-justify mb-4 leading-relaxed">
-                            During my one-year internship, I dove headfirst into real-world web development, focusing heavily on performance and user experience. I built, debugged, and redesigned web pages from the ground up, ensuring they were fully responsive and lightning-fast. A huge part of my day-to-day was tackling PageSpeed optimization, specifically fine-tuning Core Web Vitals like LCP to keep the sites ranking high and running smoothly.
-                        </p>
-                        <p className="text-neutral-300 text-justify mb-6 leading-relaxed">
-                            I also worked closely cross-departmentally, building custom WordPress and PHP snippets to make life easier for our Content Writers and SEO teams. Ultimately, I was trusted to manage and optimize HashMicro’s main 'moneysites' and regional blogs across five different markets (Indonesia, Singapore, Malaysia, the Philippines, and Australia), as well as handling the web presence for their child brands like Total ERP and EQUIP.
-                        </p>
-                        
-                        <div>
-                            <h4 className="text-sm font-mono text-neutral-500 mb-3">DEPLOYED TECHNOLOGIES</h4>
-                            <div className="flex flex-wrap gap-2">
-                                {["WordPress", "PHP", "JavaScript", "HTML5", "CSS3"].map(tech => (
-                                    <span key={tech} className="bg-neutral-800 border border-neutral-700 text-neutral-200 px-3 py-1 rounded-full text-xs font-medium">
-                                        {tech}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </GlassPanel>
-        </motion.div>
-    );
-};
-
-const ShowcaseView = ({ setSelectedImage }) => {
-    const categories = [
-        {
-            title: "Moneysites (HashMicro)",
-            description: "High-conversion landing pages and product showcases.",
-            images: [HashMicroHome, HashMicroProduct, HashMicroSolution, HashMicroAi]
-        },
-        {
-            title: "WordPress Blogs (TotalERP & EQUIP)",
-            description: "Custom WordPress platforms with seamless integrations.",
-            docsLink: "https://docs.google.com/document/d/1GStjjdS5DLBruSzykAdbTUv-J3NPsT3w2HrOLNM2YUg/edit?usp=sharing",
-            images: [
-                TotalERPHome, TotalERPProduct, EquipProduct, EquipIndustry,
-            ]
-        }
-    ];
-
-    return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full min-h-screen flex flex-col items-center p-4 md:p-8 pt-24">
-            <div className="w-full max-w-7xl mx-auto">
-                <h2 className="text-4xl font-bold text-center text-white mb-12">Visual Showcase</h2>
-                {categories.map((cat, idx) => (
-                    <div key={idx} className="mb-16">
-                        <div className="mb-8 border-b border-neutral-800 pb-4">
-                            <h3 className="text-3xl font-semibold text-sky-400 mb-2">{cat.title}</h3>
-                            <p className="text-neutral-400">{cat.description}</p>
-                            {cat.docsLink && (
-                                <a href={cat.docsLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 mt-4 bg-sky-900/40 border border-sky-700/50 text-sky-300 rounded-lg hover:bg-sky-800/50 transition-colors text-sm font-medium">
-                                    <ExternalLinkIcon className="w-4 h-4" />
-                                    <span>View Documentation</span>
-                                </a>
-                            )}
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {cat.images.map((img, imgIdx) => (
-                                <motion.div
-                                    key={imgIdx}
-                                    whileHover={{ scale: 1.03, y: -5 }}
-                                    className="aspect-video bg-neutral-900 rounded-xl overflow-hidden cursor-pointer border border-neutral-800 shadow-lg group relative"
-                                    onClick={() => setSelectedImage(img)}
-                                >
-                                    <img src={img} alt={`${cat.title} ${imgIdx + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                        <span className="opacity-0 group-hover:opacity-100 text-white font-medium bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm transition-opacity duration-300">Expand</span>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </motion.div>
-    );
-};
-
-const ProjectView = ({ project, close }) => (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={close}></div>
-        <GlassPanel className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto">
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }} className="grid grid-cols-1 lg:grid-cols-2">
-                <div className="p-8 border-b lg:border-b-0 lg:border-r border-neutral-800">
-                    <p className="font-mono text-neutral-400 text-sm">SYSTEM ANALYSIS</p>
-                    <h2 className="text-4xl font-bold text-white mt-1">{project.title}</h2>
-                    <p className="text-lg text-neutral-300">{project.category}</p>
-                    <div className="mt-6 aspect-video w-full overflow-hidden rounded-lg border border-neutral-800"><img src={project.image} alt={project.title} className="w-full h-full object-cover"/></div>
-                </div>
-                <div className="p-8">
-                    <h3 className="font-mono text-neutral-400 text-sm">DESCRIPTION</h3><p className="text-neutral-300 mt-2">{project.description}</p>
-                    <h3 className="font-mono text-neutral-400 text-sm mt-6">TECH STACK</h3>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                        {project.tech.map(t => (<div key={t} className="bg-neutral-800 border border-neutral-700 text-neutral-200 px-3 py-1 rounded-full text-xs font-medium">{t}</div>))}
-                    </div>
-                    <h3 className="font-mono text-neutral-400 text-sm mt-6">ACCESS POINTS</h3>
-                    <div className="flex items-center gap-4 mt-2">
-                        <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-800/80 border border-neutral-700 rounded-lg text-white hover:bg-neutral-700/80 transition-colors"><GitHubIcon className="w-5 h-5" /><span>Source Code</span></a>
-                        {project.liveUrl && (<a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-700/50 border border-neutral-600 rounded-lg text-white hover:bg-neutral-600/50 transition-colors"><ExternalLinkIcon className="w-5 h-5" /><span>Live Site</span></a>)}
-                    </div>
-                </div>
-            </motion.div>
-        </GlassPanel>
-        <motion.button onClick={close} className="absolute top-6 right-6 text-neutral-400 hover:text-white transition-colors" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1, transition: { delay: 0.3 } }}>
-            <CloseIcon className="w-8 h-8" />
-        </motion.button>
-    </motion.div>
+const GitHubIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+  </svg>
 );
 
-const ImageModal = ({ image, close }) => (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
-        <div className="absolute inset-0 bg-black/95 backdrop-blur-md cursor-pointer" onClick={close}></div>
-        <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="relative w-full max-w-7xl h-full flex items-center justify-center pointer-events-none">
-            <img src={image} alt="Expanded view" className="max-w-full max-h-full object-contain rounded-xl shadow-2xl pointer-events-auto" />
+const ExternalLinkIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" y1="14" x2="21" y2="3" />
+  </svg>
+);
+
+const useMousePosition = () => {
+  const x = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
+  const y = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
+  useEffect(() => {
+    const update = (e) => { x.set(e.clientX); y.set(e.clientY); };
+    window.addEventListener('mousemove', update);
+    return () => window.removeEventListener('mousemove', update);
+  }, [x, y]);
+  return { x, y };
+};
+
+const CustomCursor = () => {
+  const { x, y } = useMousePosition();
+  const [isHovering, setIsHovering] = useState(false);
+  const springCfg = { damping: 40, stiffness: 250, mass: 0.6 };
+  const cx = useSpring(x, springCfg);
+  const cy = useSpring(y, springCfg);
+
+  useEffect(() => {
+    const onOver = (e) => {
+      setIsHovering(!!e.target.closest('a, button, [data-cursor]'));
+    };
+    document.addEventListener('mouseover', onOver);
+    return () => document.removeEventListener('mouseover', onOver);
+  }, []);
+
+  return (
+    <>
+      <motion.div
+        className="fixed top-0 left-0 w-[6px] h-[6px] bg-[#1c1c1c] rounded-full pointer-events-none z-[9999]"
+        style={{ x, y, translateX: '-50%', translateY: '-50%' }}
+      />
+      <motion.div
+        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9998] border border-[#1c1c1c]/60"
+        animate={{ width: isHovering ? 56 : 36, height: isHovering ? 56 : 36 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        style={{ x: cx, y: cy, translateX: '-50%', translateY: '-50%' }}
+      />
+    </>
+  );
+};
+
+const ScrollProgress = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { damping: 30, stiffness: 200 });
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-[2px] bg-[#1c1c1c] origin-left z-[9999]"
+      style={{ scaleX }}
+    />
+  );
+};
+
+/* ─── BACKGROUND ─────────────────────────────────────────────────────────────
+   Three subtle layers:
+   1. Static fine grid (pure CSS, no Framer overhead)
+   2. Two large soft blobs that drift on a very slow keyframe cycle
+   3. A faint vignette edge to give depth
+──────────────────────────────────────────────────────────────────────────── */
+const BackgroundGrid = () => (
+  <>
+    <style>{`
+      @keyframes blobA {
+        0%,100% { transform: translate(0%, 0%) scale(1); }
+        33%      { transform: translate(8%, 12%) scale(1.08); }
+        66%      { transform: translate(-6%, 6%) scale(0.95); }
+      }
+      @keyframes blobB {
+        0%,100% { transform: translate(0%, 0%) scale(1); }
+        33%      { transform: translate(-10%, -8%) scale(1.05); }
+        66%      { transform: translate(7%, -12%) scale(1.1); }
+      }
+      @keyframes gridDrift {
+        0%   { background-position: 0px 0px; }
+        100% { background-position: 40px 40px; }
+      }
+    `}</style>
+
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      {/* Fine grid — very faint, slow drift */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right,rgba(28,28,28,0.055) 1px,transparent 1px),' +
+            'linear-gradient(to bottom,rgba(28,28,28,0.055) 1px,transparent 1px)',
+          backgroundSize: '48px 48px',
+          animation: 'gridDrift 22s linear infinite',
+        }}
+      />
+
+      {/* Blob A — top-left warm tone */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '-20%', left: '-15%',
+          width: '70%', height: '70%',
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse at center, rgba(28,28,28,0.07) 0%, transparent 70%)',
+          animation: 'blobA 20s ease-in-out infinite',
+          willChange: 'transform',
+        }}
+      />
+
+      {/* Blob B — bottom-right */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '-20%', right: '-15%',
+          width: '65%', height: '65%',
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse at center, rgba(28,28,28,0.055) 0%, transparent 70%)',
+          animation: 'blobB 26s ease-in-out infinite',
+          willChange: 'transform',
+        }}
+      />
+
+      {/* Vignette */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse 100% 100% at 50% 50%, transparent 55%, rgba(28,28,28,0.06) 100%)',
+        }}
+      />
+    </div>
+  </>
+);
+
+/* ─── CONSTELLATION NET ───────────────────────────────────────────────────────
+   Canvas-based so lines always connect to actual node positions.
+   Nodes float on independent sine cycles. On hover a node pulses.
+──────────────────────────────────────────────────────────────────────────── */
+const NODE_DEFS = [
+  { label: 'React',       cx: 0.22, cy: 0.20, dur: 9,  ax: 0.03, ay: 0.025 },
+  { label: 'Design',      cx: 0.72, cy: 0.16, dur: 11, ax:-0.025,ay: 0.03  },
+  { label: 'Go',          cx: 0.28, cy: 0.78, dur: 8,  ax: 0.028,ay:-0.025 },
+  { label: 'Performance', cx: 0.76, cy: 0.74, dur: 13, ax:-0.03, ay:-0.02  },
+  { label: 'Laravel',     cx: 0.10, cy: 0.50, dur: 10, ax: 0.025,ay: 0.03  },
+  { label: 'Typography',  cx: 0.90, cy: 0.46, dur: 12, ax:-0.028,ay: 0.025 },
+];
+
+const ConstellationNet = () => {
+  const canvasRef = useRef(null);
+  const nodesRef  = useRef([]);
+  const rafRef    = useRef(null);
+  const [hoveredIdx, setHoveredIdx] = useState(null);
+  const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
+
+  /* init node state */
+  useEffect(() => {
+    nodesRef.current = NODE_DEFS.map((n, i) => ({
+      ...n,
+      phase: (i / NODE_DEFS.length) * Math.PI * 2,
+    }));
+  }, []);
+
+  /* resize */
+  useEffect(() => {
+    const onResize = () => setSize({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  /* draw loop */
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    canvas.width  = size.w;
+    canvas.height = size.h;
+
+    const centerX = size.w / 2;
+    const centerY = size.h / 2;
+
+    const draw = (t) => {
+      ctx.clearRect(0, 0, size.w, size.h);
+
+      /* compute current node positions */
+      const positions = nodesRef.current.map((n) => ({
+        x: n.cx * size.w + Math.sin(t * 0.001 / n.dur * 6.28 + n.phase) * n.ax * size.w,
+        y: n.cy * size.h + Math.cos(t * 0.001 / n.dur * 6.28 + n.phase) * n.ay * size.h,
+      }));
+
+      /* lines: each node → center */
+      positions.forEach((p, i) => {
+        const isHov = hoveredIdx === i;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(p.x, p.y);
+        ctx.strokeStyle = isHov ? 'rgba(28,28,28,0.35)' : 'rgba(28,28,28,0.13)';
+        ctx.lineWidth   = isHov ? 1.4 : 0.7;
+        ctx.stroke();
+      });
+
+      /* lines: nearby node pairs */
+      positions.forEach((a, i) => {
+        positions.slice(i + 1).forEach((b, j) => {
+          const dist = Math.hypot(a.x - b.x, a.y - b.y);
+          if (dist > size.w * 0.42) return;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = 'rgba(28,28,28,0.07)';
+          ctx.lineWidth   = 0.5;
+          ctx.stroke();
+        });
+      });
+
+      /* center dot */
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(28,28,28,0.2)';
+      ctx.fill();
+
+      /* node dots */
+      positions.forEach((p, i) => {
+        const isHov = hoveredIdx === i;
+        const r = isHov ? 5 : 3;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = isHov ? 'rgba(28,28,28,0.65)' : 'rgba(28,28,28,0.28)';
+        ctx.fill();
+        if (isHov) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, r + 5, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(28,28,28,0.15)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      });
+
+      rafRef.current = requestAnimationFrame(draw);
+    };
+
+    rafRef.current = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [size, hoveredIdx]);
+
+  /* hover detection */
+  const handleMouseMove = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const t  = performance.now();
+
+    let found = null;
+    nodesRef.current.forEach((n, i) => {
+      const px = n.cx * size.w + Math.sin(t * 0.001 / n.dur * 6.28 + n.phase) * n.ax * size.w;
+      const py = n.cy * size.h + Math.cos(t * 0.001 / n.dur * 6.28 + n.phase) * n.ay * size.h;
+      if (Math.hypot(mx - px, my - py) < 18) found = i;
+    });
+    setHoveredIdx(found);
+  };
+
+  return (
+    <div className="absolute inset-0 z-0 overflow-hidden">
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0"
+        style={{ opacity: 1 }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setHoveredIdx(null)}
+      />
+      {/* floating labels — positioned from NODE_DEFS base positions, drift is visual-only via canvas */}
+      {NODE_DEFS.map((n, i) => (
+        <motion.div
+          key={i}
+          className="absolute font-mono text-[9px] uppercase tracking-widest select-none pointer-events-none"
+          style={{ left: `${n.cx * 100}%`, top: `${n.cy * 100}%` }}
+          animate={{
+            x: [0, n.ax * size.w, -n.ax * size.w * 0.5, n.ax * size.w * 0.3, 0],
+            y: [0, n.ay * size.h * 0.5, n.ay * size.h, -n.ay * size.h * 0.3, 0],
+          }}
+          transition={{ duration: n.dur, ease: 'easeInOut', repeat: Infinity, repeatType: 'mirror' }}
+        >
+          <span
+            className="block -translate-x-1/2 mt-2"
+            style={{ color: hoveredIdx === i ? 'rgba(28,28,28,0.85)' : 'rgba(28,28,28,0.42)' }}
+          >
+            {n.label}
+          </span>
         </motion.div>
-        <button onClick={close} className="absolute top-6 right-6 text-neutral-400 hover:text-white z-10 pointer-events-auto bg-black/50 p-2 rounded-full backdrop-blur-sm transition-colors">
-            <CloseIcon className="w-8 h-8" />
-        </button>
-    </motion.div>
+      ))}
+    </div>
+  );
+};
+
+const MarqueeTicker = () => {
+  const items = ['Full-Stack Development', 'React & Next.js', 'Go Backend', 'UI/UX Engineering', 'Performance Optimization', 'Laravel & PHP', 'TypeScript', 'System Design', 'Available for Work'];
+  const tripled = [...items, ...items, ...items];
+  return (
+    <div className="w-full overflow-hidden border-t border-b border-[#1c1c1c]/10 py-3 bg-[#e4e2dd] relative z-10">
+      <motion.div
+        className="flex gap-12 whitespace-nowrap"
+        animate={{ x: ['0%', '-33.333%'] }}
+        transition={{ duration: 35, ease: 'linear', repeat: Infinity }}
+        style={{ width: 'max-content' }}
+      >
+        {tripled.map((item, i) => (
+          <span key={i} className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#1c1c1c]/45 flex items-center gap-12">
+            {item}
+            <span className="text-[#1c1c1c]/18 text-base leading-none">·</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+};
+
+const NavBar = () => {
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+  return (
+    <nav className="fixed top-0 w-full z-50 p-4 md:p-6 mix-blend-difference text-[#e4e2dd]">
+      <div className="flex justify-between items-start font-mono text-xs uppercase tracking-widest">
+        <div className="flex flex-col gap-1 cursor-pointer" onClick={() => scrollTo('hero')}>
+          <span className="font-bold text-sm tracking-tighter">DARREN.STUDIO</span>
+          <span className="hidden sm:block opacity-70">Jakarta, ID</span>
+        </div>
+        <div className="hidden md:flex gap-6 lg:gap-8">
+          {['projects', 'experience', 'showcase', 'profile'].map((item, i) => (
+            <button key={item} onClick={() => scrollTo(item)} className="hover:line-through transition-all duration-200 opacity-80 hover:opacity-100">
+              {`00${i + 1}/${item}`}
+            </button>
+          ))}
+        </div>
+        <div className="flex gap-4">
+          <a href="https://github.com/DarrenAnthonyBeltham/" target="_blank" rel="noopener noreferrer" className="hover:line-through transition-all duration-200">GH</a>
+          <a href="https://www.linkedin.com/in/darrenanthonybeltham" target="_blank" rel="noopener noreferrer" className="hover:line-through transition-all duration-200">LI</a>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+const HeroSection = () => {
+  const { x, y } = useMousePosition();
+  const [windowSize, setWindowSize] = useState({ w: 1000, h: 800 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const update = () => {
+      setWindowSize({ w: window.innerWidth, h: window.innerHeight });
+      setIsMobile(window.innerWidth < 768);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  const springCfg = { damping: 60, stiffness: 80, mass: 1.2 };
+  const rawX = useTransform(x, [0, windowSize.w], [10, -10]);
+  const rawY = useTransform(y, [0, windowSize.h], [10, -10]);
+  const xOffset = useSpring(rawX, springCfg);
+  const yOffset = useSpring(rawY, springCfg);
+
+  return (
+    <section id="hero" className="relative w-full h-screen flex flex-col items-center justify-center border-b border-[#1c1c1c]/10 overflow-hidden">
+      {!isMobile && <ConstellationNet />}
+
+      <motion.div
+        style={{ x: isMobile ? 0 : xOffset, y: isMobile ? 0 : yOffset }}
+        className="relative z-10 text-center flex flex-col items-center px-4"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <h1 className="text-[18vw] sm:text-[14vw] md:text-[12vw] leading-[0.9] font-black text-[#1c1c1c] tracking-tighter uppercase whitespace-nowrap">
+          DARREN
+        </h1>
+        <h2 className="text-[18vw] sm:text-[14vw] md:text-[12vw] leading-[0.9] font-black text-[#1c1c1c] tracking-tighter uppercase whitespace-nowrap">
+          BELTHAM
+        </h2>
+        <motion.div
+          className="mt-6 md:mt-10 flex gap-6 md:gap-12 font-mono text-[10px] md:text-xs tracking-widest text-[#1c1c1c]/55 uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.7, ease: 'easeOut' }}
+        >
+          <span>Full-Stack</span>
+          <span className="opacity-30">·</span>
+          <span>Engineering</span>
+          <span className="opacity-30">·</span>
+          <span>Design</span>
+        </motion.div>
+      </motion.div>
+
+      {/* scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 md:bottom-12 flex flex-col items-center gap-3"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.3 }}
+      >
+        <motion.div
+          className="w-px bg-[#1c1c1c]/25"
+          animate={{ height: [16, 32, 16], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#1c1c1c]/35">Scroll</span>
+      </motion.div>
+
+      {/* availability badge */}
+      <motion.div
+        className="absolute bottom-8 right-5 md:right-12 font-mono text-[9px] uppercase tracking-widest flex items-center gap-2 text-[#1c1c1c]/45"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6 }}
+      >
+        <motion.span
+          className="w-[5px] h-[5px] rounded-full bg-emerald-500 inline-block"
+          animate={{ opacity: [1, 0.4, 1] }}
+          transition={{ duration: 2.5, repeat: Infinity }}
+        />
+        Available for work
+      </motion.div>
+    </section>
+  );
+};
+
+const SectionTitle = ({ children, className = '' }) => (
+  <motion.h2
+    className={`font-bold tracking-tighter text-[#1c1c1c] uppercase ${className}`}
+    initial={{ opacity: 0, y: 28 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-60px' }}
+    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+  >
+    {children}
+  </motion.h2>
+);
+
+const ProjectsSection = () => {
+  const targetRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: targetRef });
+
+  const projects = [
+    { id: 7, title: 'BoxQ',      category: 'Fullstack / Procurement', image: BoxQImg,      pos: 'top',    description: 'End-to-end automated procurement platform. Features AI-powered OCR for intelligent invoice scanning, multi-tier approvals, and automated payment disbursements enforcing strict financial compliance.', tech: ['Vue.js','TypeScript','Laravel','MongoDB','Mindee AI','Xendit'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/boxq' },
+    { id: 1, title: 'Grailify',  category: 'Fullstack / E-Commerce',  image: GrailifyImg,  pos: 'top',    description: 'Premier online marketplace for authentic sneakers, apparel, and collectibles. Built with a powerful Go backend and a responsive Next.js frontend.', tech: ['Next.js','Tailwind','Typescript','MySQL','GO','JWT'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/Grailify' },
+    { id: 2, title: 'CarShroom', category: 'Fullstack / Automotive',  image: CarShroomImg, pos: 'top',    description: 'Sophisticated web application for a high-end luxury and performance car dealership. Features a rich interactive frontend and a robust backend API to manage products.', tech: ['PHP','HTML5','CSS3','GO'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/CarShroom' },
+    { id: 6, title: 'CoinLens',  category: 'Frontend / Crypto',       image: CoinLensImg,  pos: 'top',    description: 'Futuristic all-in-one crypto dashboard tracking live market data, analyzing trends with interactive charts, and exploring digital assets through personal watchlists.', tech: ['Next.js','Tailwind CSS','Typescript'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/coinlens', liveUrl: 'https://coinlens-phi.vercel.app/' },
+    { id: 3, title: 'Futbol',    category: 'Frontend / Sports',       image: FutbolImg,    pos: 'center', description: 'Modern web-based application designed for football fans, coaches, and analysts. Intuitive platform to build team formations and explore detailed player stats.', tech: ['React.js','Tailwind CSS'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/futbol', liveUrl: 'https://futbol-dar.vercel.app/' },
+    { id: 5, title: 'Planify',   category: 'Fullstack / SaaS',        image: PlanifyImg,   pos: 'top',    description: 'Simple yet powerful project management tool. Features Kanban boards, drag-and-drop tasks, user profiles, and smart collaboration features.', tech: ['Next.js','Tailwind','Typescript','MySQL','GO','JWT'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/planify' },
+    { id: 4, title: 'Muzik',     category: 'Frontend / Entertainment', image: MuzikImg,    pos: 'top',    description: 'Sleek modern web application for music enthusiasts. Clean interface to search for artists, explore discographies, and access direct lyrics.', tech: ['React.js','Typescript','Tailwind','Genius API'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/muzik', liveUrl: 'https://muzik-lyrics.vercel.app/' },
+  ];
+
+  const rawX = useTransform(scrollYProgress, [0, 1], ['0%', `-${(projects.length - 1) * 100}vw`]);
+  const x = useSpring(rawX, { damping: 40, stiffness: 120, mass: 0.8 });
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const unsub = scrollYProgress.on('change', (v) => {
+      setActiveIndex(Math.min(projects.length - 1, Math.max(0, Math.round(v * (projects.length - 1)))));
+    });
+    return () => unsub();
+  }, [scrollYProgress, projects.length]);
+
+  return (
+    <section id="projects" ref={targetRef} className="relative h-[700vh] bg-[#e4e2dd] border-b border-[#1c1c1c]/10">
+      <div className="sticky top-0 h-screen flex flex-col overflow-hidden pt-20 md:pt-24 pb-4 md:pb-8">
+        <div className="px-4 sm:px-6 md:px-12 flex justify-between items-end mb-4 md:mb-6 z-10">
+          <SectionTitle className="text-3xl sm:text-4xl md:text-6xl">Selected<br />Works</SectionTitle>
+          <div className="font-mono text-xs tracking-widest uppercase opacity-40">
+            {String(activeIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+          </div>
+        </div>
+
+        <div className="relative flex-1 flex items-center min-h-0">
+          <motion.div style={{ x }} className="flex w-full absolute left-0 px-[5vw] sm:px-[8vw] md:px-[10vw]">
+            {projects.map((project, index) => {
+              const isActive = index === activeIndex;
+              return (
+                <div key={project.id} className="w-[90vw] sm:w-[75vw] md:w-[62vw] flex-shrink-0 px-2 md:px-4 flex justify-center">
+                  <motion.div
+                    animate={{
+                      scale: isActive ? 1 : 0.88,
+                      opacity: isActive ? 1 : 0.28,
+                      filter: isActive ? 'grayscale(0%) brightness(1)' : 'grayscale(100%) brightness(0.8)',
+                    }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full aspect-[4/3] overflow-hidden bg-[#dcd9ce] border border-[#1c1c1c]/15"
+                  >
+                    <motion.img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                      style={{ objectPosition: project.pos }}
+                      animate={{ scale: isActive ? 1 : 1.06 }}
+                      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                  </motion.div>
+                </div>
+              );
+            })}
+          </motion.div>
+        </div>
+
+        <div className="px-4 sm:px-6 md:px-12 flex items-start md:items-center bg-[#e4e2dd] z-10 border-t border-[#1c1c1c]/10 pt-4 md:pt-0 mt-3 md:mt-6 min-h-[120px] md:h-44">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full flex flex-col sm:flex-row justify-between gap-4 md:gap-8"
+            >
+              <div className="sm:w-1/2 md:w-1/3">
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-1">// 01 Description</div>
+                <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tighter mb-1">{projects[activeIndex].title}</h3>
+                <p className="text-xs text-[#1c1c1c]/65 leading-relaxed font-mono line-clamp-3 md:line-clamp-none">{projects[activeIndex].description}</p>
+              </div>
+              <div className="hidden sm:block sm:w-1/4 md:w-1/3">
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-1">// 02 Specifications</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {projects[activeIndex].tech.map(t => (
+                    <span key={t} className="text-[10px] font-mono border border-[#1c1c1c]/18 px-2 py-0.5 uppercase">{t}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="sm:w-1/4 md:w-1/3 flex flex-row sm:flex-col items-center sm:items-end gap-4 sm:gap-0">
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-0 sm:mb-2">// 03 Access</div>
+                <div className="flex gap-3">
+                  <a href={projects[activeIndex].repoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs font-bold uppercase hover:underline">
+                    <GitHubIcon className="w-3.5 h-3.5" /> Code
+                  </a>
+                  {projects[activeIndex].liveUrl && (
+                    <a href={projects[activeIndex].liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs font-bold uppercase hover:underline">
+                      <ExternalLinkIcon className="w-3.5 h-3.5" /> Live
+                    </a>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ExperienceSection = () => (
+  <section id="experience" className="w-full py-20 md:py-32 px-4 sm:px-6 md:px-12 border-b border-[#1c1c1c]/10">
+    <div className="max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row gap-8 md:gap-24">
+        <div className="md:w-1/3">
+          <SectionTitle className="text-3xl sm:text-4xl md:text-6xl md:sticky md:top-32">Service<br />Record</SectionTitle>
+        </div>
+        <div className="md:w-2/3 border-t border-[#1c1c1c]/10 pt-8 md:pt-12">
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold uppercase tracking-tighter">Web Developer Intern</h3>
+              <div className="font-mono text-xs text-[#1c1c1c]/55 uppercase tracking-widest mt-2">HashMicro & Associated Brands</div>
+            </div>
+            <div className="font-mono text-xs border border-[#1c1c1c]/20 px-2 md:px-3 py-1 uppercase shrink-0 ml-4">1 Year</div>
+          </div>
+          <div className="font-mono text-xs md:text-sm leading-relaxed text-[#1c1c1c]/70 space-y-5">
+            <p>During my one-year internship, I dove headfirst into real-world web development, focusing heavily on performance and user experience. I built, debugged, and redesigned web pages from the ground up, ensuring they were fully responsive and lightning-fast. A huge part of my day-to-day was tackling PageSpeed optimization—specifically fine-tuning Core Web Vitals like LCP to keep the sites ranking high and running smoothly.</p>
+            <p>I also worked closely cross-departmentally, building custom WordPress and PHP snippets to make life easier for our Content Writers and SEO teams. Ultimately, I was trusted to manage and optimize HashMicro's main 'moneysites' and regional blogs across five different markets (Indonesia, Singapore, Malaysia, the Philippines, and Australia), as well as handling the web presence for their child brands like Total ERP and EQUIP.</p>
+          </div>
+          <div className="mt-8 md:mt-12">
+            <div className="font-mono text-[10px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">// Stack Deployed</div>
+            <div className="flex flex-wrap gap-2">
+              {['WordPress','PHP','MySQL','JavaScript','HTML5','CSS3','PageSpeed','SEO Ops'].map(tech => (
+                <span key={tech} className="font-mono text-[10px] bg-[#1c1c1c] text-[#e4e2dd] px-2 md:px-3 py-1 uppercase">{tech}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+const ShowcaseSection = () => {
+  const categories = [
+    { title: 'Moneysites (HashMicro)', images: [HashMicroHomeImg, HashMicroProductImg, HashMicroSolutionImg, HashMicroAiImg] },
+    { title: 'WP Platforms', docsLink: 'https://docs.google.com/document/d/1GStjjdS5DLBruSzykAdbTUv-J3NPsT3w2HrOLNM2YUg/edit?usp=sharing', images: [TotalERPHomeImg, TotalERPProductImg, EquipProductImg, EquipIndustryImg] },
+  ];
+  return (
+    <section id="showcase" className="w-full py-20 md:py-32 px-4 sm:px-6 md:px-12 border-b border-[#1c1c1c]/10">
+      <div className="max-w-7xl mx-auto">
+        <SectionTitle className="text-3xl sm:text-4xl md:text-6xl mb-12 md:mb-24 text-center">Visual Archive</SectionTitle>
+        {categories.map((cat, idx) => (
+          <div key={idx} className="mb-16 md:mb-32">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 md:mb-12 border-b border-[#1c1c1c]/15 pb-4">
+              <div>
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-2">// {String(idx + 1).padStart(2, '0')} Category</div>
+                <h3 className="text-xl md:text-3xl font-bold uppercase tracking-tighter">{cat.title}</h3>
+              </div>
+              {cat.docsLink && (
+                <a href={cat.docsLink} target="_blank" rel="noopener noreferrer" className="font-mono text-xs font-bold uppercase hover:underline flex items-center gap-2 mt-3 sm:mt-0">
+                  Documentation <ExternalLinkIcon className="w-3.5 h-3.5" />
+                </a>
+              )}
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#1c1c1c]/15 border border-[#1c1c1c]/15">
+              {cat.images.map((img, imgIdx) => (
+                <motion.div
+                  key={imgIdx}
+                  initial={{ opacity: 0, filter: 'grayscale(100%)' }}
+                  whileInView={{ opacity: 1, filter: 'grayscale(0%)' }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 1.1, delay: (imgIdx % 4) * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="aspect-[4/3] bg-[#e4e2dd] relative group overflow-hidden"
+                >
+                  <motion.img
+                    src={img}
+                    alt={`Showcase ${imgIdx + 1}`}
+                    className="w-full h-full object-cover object-top"
+                    whileHover={{ scale: 1.06 }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-[#1c1c1c]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                    <a href={img} target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] text-[#e4e2dd] border border-[#e4e2dd] px-3 md:px-4 py-1.5 uppercase hover:bg-[#e4e2dd] hover:text-[#1c1c1c] transition-colors duration-300">
+                      View Full
+                    </a>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const ProfileSection = () => (
+  <section id="profile" className="w-full py-20 md:py-32 px-4 sm:px-6 md:px-12">
+    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-24">
+      <div>
+        <SectionTitle className="text-3xl sm:text-4xl md:text-6xl mb-6 md:mb-8">Manifesto</SectionTitle>
+        <div className="font-mono text-xs md:text-sm leading-relaxed text-[#1c1c1c]/70 space-y-5">
+          <p>I'm a final-semester Computer Science student <strong className="text-[#1c1c1c]">(Current GPA: 3.62)</strong> awaiting graduation, with a genuine passion for building clean, user-centric web applications. I specialize in bridging the gap between design and engineering, transforming complex requirements into intuitive, highly interactive interfaces using React and Tailwind CSS.</p>
+          <p>Beyond the frontend, I have hands-on experience architecting reliable backend systems and RESTful APIs using Go and MySQL. I approach every project with a problem-solving mindset, striving to write efficient, maintainable code. For me, development is about more than just making things work—it's about crafting seamless digital experiences that deliver real value.</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 content-start">
+        {[
+          { title: 'Frontend', skills: ['React','Next.js','Vue.js','Tailwind','JavaScript','HTML5'] },
+          { title: 'Backend',  skills: ['Go','PHP','Laravel','MySQL','Supabase'] },
+          { title: 'Tools',    skills: ['WordPress','Figma','Git','PageSpeed'] },
+        ].map((block, i) => (
+          <motion.div
+            key={i}
+            className="border border-[#1c1c1c]/18 p-4 md:p-5"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h3 className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">// {block.title}</h3>
+            <ul className="font-mono text-xs font-bold uppercase space-y-1.5">
+              {block.skills.map(s => <li key={s}>{s}</li>)}
+            </ul>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+
+    <footer className="mt-20 md:mt-32 border-t border-[#1c1c1c]/15 pt-8 flex flex-col sm:flex-row justify-between items-center font-mono text-[10px] uppercase tracking-widest text-[#1c1c1c]/45 gap-4">
+      <div>© {new Date().getFullYear()} Darren Anthony Beltham</div>
+      <div className="flex gap-6 md:gap-8">
+        <a href="mailto:darrenanthonybeltham@gmail.com" className="hover:text-[#1c1c1c] transition-colors duration-200">Email</a>
+        <a href="https://github.com/DarrenAnthonyBeltham/" target="_blank" rel="noopener noreferrer" className="hover:text-[#1c1c1c] transition-colors duration-200">GitHub</a>
+        <a href="https://www.linkedin.com/in/darrenanthonybeltham" target="_blank" rel="noopener noreferrer" className="hover:text-[#1c1c1c] transition-colors duration-200">LinkedIn</a>
+      </div>
+    </footer>
+  </section>
 );
 
 export default function App() {
-    const [view, setView] = useState('hero');
-    const [selectedProject, setSelectedProject] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(null);
-
-    const renderView = () => {
-        const socialLinks = [
-            { href: "https://github.com/DarrenAnthonyBeltham/", Icon: GitHubIcon },
-            { href: "https://www.linkedin.com/in/darrenanthonybeltham", Icon: LinkedInIcon },
-            { href: "https://www.instagram.com/darrenab_/", Icon: InstagramIcon },
-            { href: "mailto:darrenanthonybeltham@gmail.com", Icon: MailIcon },
-        ];
-        const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } } };
-        const itemVariants = { hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } };
-
-        switch (view) {
-            case 'hero': return <HeroView setView={setView} />;
-            case 'projects': return <ProjectsView setSelectedProject={setSelectedProject} />;
-            case 'experience': return <ExperienceView />;
-            case 'showcase': return <ShowcaseView setSelectedImage={setSelectedImage} />;
-            case 'profile': return <ProfileView />;
-            case 'contact': return (
-                <motion.div initial="hidden" animate="visible" exit={{ opacity: 0 }} className="w-full min-h-screen flex items-center justify-center p-4">
-                    <GlassPanel className="p-8 text-center max-w-lg mx-auto">
-                        <h2 className="text-4xl font-bold text-white mb-2">Get In Touch</h2>
-                        <p className="text-neutral-300 mb-8">Let's connect. Find me on these platforms.</p>
-                        <motion.div className="flex justify-center gap-6" variants={containerVariants}>
-                            {socialLinks.map(({ href, Icon }) => (
-                                <motion.a key={href} href={href} target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white" variants={itemVariants} whileHover={{ y: -5, scale: 1.1 }} transition={{ type: 'spring', stiffness: 300 }}>
-                                    <Icon className="w-8 h-8" />
-                                </motion.a>
-                            ))}
-                        </motion.div>
-                    </GlassPanel>
-                </motion.div>
-            );
-            default: return <HeroView setView={setView} />;
-        }
-    };
-
-    return (
-        <div className="w-full min-h-screen relative font-sans text-neutral-200 bg-black" style={{ background: 'radial-gradient(ellipse at center, #0a0e23 0%, #000000 70%)' }}>
-            <AnimatedBackground />
-            <Header setView={setView} />
-            <main className="relative z-10">
-                <AnimatePresence mode="wait">
-                    <motion.div key={view} initial={{ opacity: 0, filter: "blur(4px)" }} animate={{ opacity: 1, filter: "blur(0px)" }} exit={{ opacity: 0, filter: "blur(4px)" }} transition={{ duration: 0.5 }}>
-                        {renderView()}
-                    </motion.div>
-                </AnimatePresence>
-                <AnimatePresence>
-                    {selectedProject && <ProjectView project={selectedProject} close={() => setSelectedProject(null)} />}
-                </AnimatePresence>
-                <AnimatePresence>
-                    {selectedImage && <ImageModal image={selectedImage} close={() => setSelectedImage(null)} />}
-                </AnimatePresence>
-            </main>
-        </div>
-    );
+  return (
+    <div className="w-full relative font-sans bg-[#e4e2dd] text-[#1c1c1c] selection:bg-[#1c1c1c] selection:text-[#e4e2dd] cursor-none">
+      <BackgroundGrid />
+      <CustomCursor />
+      <ScrollProgress />
+      <NavBar />
+      <main className="relative z-10 w-full flex flex-col">
+        <HeroSection />
+        <MarqueeTicker />
+        <ProjectsSection />
+        <ExperienceSection />
+        <ShowcaseSection />
+        <ProfileSection />
+      </main>
+    </div>
+  );
 }
