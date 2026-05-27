@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from 'framer-motion';
 
 import GrailifyImg from './assets/Grailify.jpg';
@@ -23,133 +23,6 @@ const GitHubIcon = ({ className }) => (
     <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
   </svg>
 );
-
-const ExternalLinkIcon = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-    <polyline points="15 3 21 3 21 9" />
-    <line x1="10" y1="14" x2="21" y2="3" />
-  </svg>
-);
-
-const ArrowRightIcon = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="5" y1="12" x2="19" y2="12" />
-    <polyline points="12 5 19 12 12 19" />
-  </svg>
-);
-
-const FaviconAnimator = () => {
-  useEffect(() => {
-    let isPulse = false;
-    const interval = setInterval(() => {
-      let link = document.querySelector("link[rel~='icon']");
-      if (!link) {
-        link = document.createElement('link');
-        link.rel = 'icon';
-        document.head.appendChild(link);
-      }
-      link.type = 'image/svg+xml';
-      const size = isPulse ? '60' : '40';
-      link.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="${size}" fill="%231c1c1c"/></svg>`;
-      isPulse = !isPulse;
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-  return null;
-};
-
-const useMousePosition = () => {
-  const x = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
-  const y = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
-  useEffect(() => {
-    const update = (e) => { x.set(e.clientX); y.set(e.clientY); };
-    window.addEventListener('mousemove', update);
-    return () => window.removeEventListener('mousemove', update);
-  }, [x, y]);
-  return { x, y };
-};
-
-const CustomCursor = () => {
-  const { x, y } = useMousePosition();
-  const [isHovering, setIsHovering] = useState(false);
-  const springCfg = { damping: 40, stiffness: 250, mass: 0.6 };
-  const cx = useSpring(x, springCfg);
-  const cy = useSpring(y, springCfg);
-
-  useEffect(() => {
-    const onOver = (e) => {
-      setIsHovering(!!e.target.closest('a, button, [data-cursor], .interactive'));
-    };
-    document.addEventListener('mouseover', onOver);
-    return () => document.removeEventListener('mouseover', onOver);
-  }, []);
-
-  return (
-    <div className="hidden md:block">
-      <motion.div
-        className="fixed top-0 left-0 w-[6px] h-[6px] bg-[#1c1c1c] rounded-full pointer-events-none z-[9999]"
-        style={{ x, y, translateX: '-50%', translateY: '-50%' }}
-      />
-      <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9998] border border-[#1c1c1c]/60 backdrop-blur-[1px]"
-        animate={{ width: isHovering ? 56 : 36, height: isHovering ? 56 : 36, backgroundColor: isHovering ? 'rgba(28,28,28,0.05)' : 'rgba(0,0,0,0)' }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        style={{ x: cx, y: cy, translateX: '-50%', translateY: '-50%' }}
-      />
-    </div>
-  );
-};
-
-const ScrollProgress = () => {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { damping: 30, stiffness: 200 });
-  return (
-    <motion.div
-      className="fixed top-0 left-0 right-0 h-[3px] bg-[#1c1c1c] origin-left z-[9999]"
-      style={{ scaleX }}
-    />
-  );
-};
-
-const Preloader = () => {
-  const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(false), 2200);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ y: 0 }}
-          exit={{ y: "-100%" }}
-          transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
-          className="fixed inset-0 z-[10000] bg-[#1c1c1c] flex flex-col items-center justify-center overflow-hidden"
-        >
-          <div className="relative overflow-hidden">
-            <motion.h1
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-              className="text-[#e4e2dd] font-black text-4xl md:text-6xl tracking-tighter uppercase"
-            >
-              DARREN.STUDIO
-            </motion.h1>
-          </div>
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.2, ease: "easeInOut", delay: 0.6 }}
-            className="w-48 h-px bg-[#e4e2dd] mt-8 origin-left"
-          />
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
 
 const MagneticElement = ({ children, strength = 0.4, className = "" }) => {
   const ref = useRef(null);
@@ -186,57 +59,88 @@ const MagneticElement = ({ children, strength = 0.4, className = "" }) => {
   );
 };
 
-const TiltCard = ({ children, className = "" }) => {
-  const ref = useRef(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useSpring(useTransform(y, [-100, 100], [10, -10]), { damping: 30, stiffness: 200 });
-  const rotateY = useSpring(useTransform(x, [-100, 100], [-10, 10]), { damping: 30, stiffness: 200 });
-  const glareX = useTransform(x, [-100, 100], [0, 100]);
-  const glareY = useTransform(y, [-100, 100], [0, 100]);
-  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.2) 0%, transparent 60%)`;
+const ArrowRightIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12" />
+    <polyline points="12 5 19 12 12 19" />
+  </svg>
+);
 
-  const handleMouseMove = (e) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set(e.clientX - rect.left - rect.width / 2);
-    y.set(e.clientY - rect.top - rect.height / 2);
-  };
+const LinkedInIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
 
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
+const ExternalLinkIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" y1="14" x2="21" y2="3" />
+  </svg>
+);
+
+const useMousePosition = () => {
+  const x = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
+  const y = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
+  useEffect(() => {
+    const update = (e) => { x.set(e.clientX); y.set(e.clientY); };
+    window.addEventListener('mousemove', update);
+    return () => window.removeEventListener('mousemove', update);
+  }, [x, y]);
+  return { x, y };
+};
+
+const CustomCursor = () => {
+  const { x, y } = useMousePosition();
+  const [isHovering, setIsHovering] = useState(false);
+  const springCfg = { damping: 40, stiffness: 250, mass: 0.6 };
+  const cx = useSpring(x, springCfg);
+  const cy = useSpring(y, springCfg);
+
+  useEffect(() => {
+    const onOver = (e) => {
+      setIsHovering(!!e.target.closest('a, button, [data-cursor]'));
+    };
+    document.addEventListener('mouseover', onOver);
+    return () => document.removeEventListener('mouseover', onOver);
+  }, []);
 
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className={`relative ${className} interactive`}
-    >
-      {children}
+    <>
       <motion.div
-        className="absolute inset-0 pointer-events-none rounded-inherit z-10"
-        style={{ background: glareBackground }}
+        className="fixed top-0 left-0 w-[6px] h-[6px] bg-[#1c1c1c] rounded-full pointer-events-none z-[9999]"
+        style={{ x, y, translateX: '-50%', translateY: '-50%' }}
       />
-    </motion.div>
+      <motion.div
+        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9998] border border-[#1c1c1c]/60"
+        animate={{ width: isHovering ? 56 : 36, height: isHovering ? 56 : 36 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        style={{ x: cx, y: cy, translateX: '-50%', translateY: '-50%' }}
+      />
+    </>
   );
 };
 
-const SectionTitle = ({ children, className = '' }) => (
-  <motion.h2
-    className={`font-bold tracking-tighter text-[#1c1c1c] uppercase ${className}`}
-    initial={{ opacity: 0, y: 28 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: '-60px' }}
-    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-  >
-    {children}
-  </motion.h2>
-);
+const ScrollProgress = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { damping: 30, stiffness: 200 });
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-[2px] bg-[#1c1c1c] origin-left z-[9999]"
+      style={{ scaleX }}
+    />
+  );
+};
 
+/* ─── BACKGROUND ─────────────────────────────────────────────────────────────
+   Three subtle layers:
+   1. Static fine grid (pure CSS, no Framer overhead)
+   2. Two large soft blobs that drift on a very slow keyframe cycle
+   3. A faint vignette edge to give depth
+──────────────────────────────────────────────────────────────────────────── */
 const BackgroundGrid = () => (
   <>
     <style>{`
@@ -254,16 +158,8 @@ const BackgroundGrid = () => (
         0%   { background-position: 0px 0px; }
         100% { background-position: 40px 40px; }
       }
-      @keyframes shimmer {
-        0% { background-position: -1000px 0; }
-        100% { background-position: 1000px 0; }
-      }
-      .animate-shimmer {
-        background: linear-gradient(to right, rgba(28,28,28,0.05) 4%, rgba(28,28,28,0.1) 25%, rgba(28,28,28,0.05) 36%);
-        background-size: 1000px 100%;
-        animation: shimmer 2s infinite linear;
-      }
     `}</style>
+
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       <div
         className="absolute inset-0"
@@ -275,6 +171,7 @@ const BackgroundGrid = () => (
           animation: 'gridDrift 22s linear infinite',
         }}
       />
+
       <div
         style={{
           position: 'absolute',
@@ -286,6 +183,7 @@ const BackgroundGrid = () => (
           willChange: 'transform',
         }}
       />
+
       <div
         style={{
           position: 'absolute',
@@ -297,6 +195,7 @@ const BackgroundGrid = () => (
           willChange: 'transform',
         }}
       />
+
       <div
         className="absolute inset-0"
         style={{
@@ -427,7 +326,7 @@ const ConstellationNet = () => {
 };
 
 const MarqueeTicker = () => {
-  const items = ['Full-Stack Development', 'React & Next.js', 'Go Backend', 'UI/UX Engineering', 'Performance Optimization', 'Laravel & PHP', 'TypeScript', 'System Design', 'Available for Freelance'];
+  const items = ['Full-Stack Development', 'React & Next.js', 'Go Backend', 'UI/UX Engineering', 'Performance Optimization', 'Laravel & PHP', 'TypeScript', 'System Design', 'Available to Work Together'];
   const tripled = [...items, ...items, ...items];
   return (
     <div className="w-full overflow-hidden border-t border-b border-[#1c1c1c]/10 py-3 bg-[#e4e2dd] relative z-10">
@@ -472,21 +371,81 @@ const NavBar = () => {
             </button>
           ))}
         </div>
-        <div className="flex gap-4">
-          <a href="https://github.com/DarrenAnthonyBeltham/" target="_blank" rel="noopener noreferrer" className="hover:line-through transition-all duration-200 interactive">GH</a>
-          <a href="https://www.linkedin.com/in/darrenanthonybeltham" target="_blank" rel="noopener noreferrer" className="hover:line-through transition-all duration-200 interactive">LI</a>
+        <div className="flex gap-4 items-center">
+          <a href="https://github.com/DarrenAnthonyBeltham/" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-200 interactive">
+            <GitHubIcon className="w-5 h-5" />
+          </a>
+          <a href="https://www.linkedin.com/in/darrenanthonybeltham" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-200 interactive">
+            <LinkedInIcon className="w-5 h-5" />
+          </a>
         </div>
       </div>
     </motion.nav>
   );
 };
 
+const FaviconAnimator = () => {
+  useEffect(() => {
+    let isPulse = false;
+    const interval = setInterval(() => {
+      let link = document.querySelector("link[rel~='icon']");
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+      }
+      link.type = 'image/svg+xml';
+      const size = isPulse ? '60' : '40';
+      link.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="${size}" fill="%231c1c1c"/></svg>`;
+      isPulse = !isPulse;
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+  return null;
+};
+
+const Preloader = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(false), 2200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ y: 0 }}
+          exit={{ y: "-100%" }}
+          transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
+          className="fixed inset-0 z-[10000] bg-[#1c1c1c] flex flex-col items-center justify-center overflow-hidden"
+        >
+          <div className="relative overflow-hidden">
+            <motion.h1
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              className="text-[#e4e2dd] font-black text-4xl md:text-6xl tracking-tighter uppercase"
+            >
+              DARREN.STUDIO
+            </motion.h1>
+          </div>
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1.2, ease: "easeInOut", delay: 0.6 }}
+            className="w-48 h-px bg-[#e4e2dd] mt-8 origin-left"
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const HeroSection = () => {
   const { x, y } = useMousePosition();
-  const [windowSize, setWindowSize] = useState({ 
-    w: typeof window !== 'undefined' ? window.innerWidth : 1000, 
-    h: typeof window !== 'undefined' ? window.innerHeight : 800 
-  });
+  const [windowSize, setWindowSize] = useState({ w: 1000, h: 800 });
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -514,16 +473,19 @@ const HeroSection = () => {
         className="relative z-10 text-center flex flex-col items-center px-4"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 2, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       >
         <h1 className="text-[18vw] sm:text-[14vw] md:text-[12vw] leading-[0.9] font-black text-[#1c1c1c] tracking-tighter uppercase whitespace-nowrap">
           DARREN
         </h1>
         <h2 className="text-[18vw] sm:text-[14vw] md:text-[12vw] leading-[0.9] font-black text-[#1c1c1c] tracking-tighter uppercase whitespace-nowrap">
-          BELTHAM
+          A.B
         </h2>
         <motion.div
           className="mt-6 md:mt-10 flex gap-6 md:gap-12 font-mono text-[10px] md:text-xs tracking-widest text-[#1c1c1c]/55 uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.7, ease: 'easeOut' }}
         >
           <span>Full-Stack</span>
           <span className="opacity-30">·</span>
@@ -537,7 +499,7 @@ const HeroSection = () => {
         className="absolute bottom-8 md:bottom-12 flex flex-col items-center gap-3"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2.5 }}
+        transition={{ duration: 1, delay: 1.3 }}
       >
         <motion.div
           className="w-px bg-[#1c1c1c]/25"
@@ -551,14 +513,14 @@ const HeroSection = () => {
         className="absolute bottom-8 right-5 md:right-12 font-mono text-[9px] uppercase tracking-widest flex items-center gap-2 text-[#1c1c1c]/45"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5 }}
+        transition={{ delay: 1.6 }}
       >
         <motion.span
           className="w-[5px] h-[5px] rounded-full bg-emerald-500 inline-block"
           animate={{ opacity: [1, 0.4, 1] }}
           transition={{ duration: 2.5, repeat: Infinity }}
         />
-        Available for freelance
+        Available to Work Together
       </motion.div>
     </section>
   );
@@ -599,8 +561,13 @@ const ServicesSection = () => {
             >
               <TiltCard className="h-full bg-[#e4e2dd] border border-[#1c1c1c]/15 p-8 md:p-10 group rounded-none">
                 <div className="font-mono text-xs text-[#1c1c1c]/40 mb-6">{service.id}</div>
-                <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tighter mb-4 text-[#1c1c1c] group-hover:text-[#1c1c1c]/80 transition-colors">
+                <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tighter mb-4 text-[#1c1c1c] group-hover:text-[#1c1c1c]/80 transition-colors flex items-center justify-between">
                   {service.title}
+                  <motion.div 
+                    initial={{ scale: 1 }}
+                    whileHover={{ scale: 1.2, rotate: 10 }}
+                    className="w-2 h-2 rounded-full bg-[#1c1c1c]/20"
+                  />
                 </h3>
                 <div className="w-0 h-[2px] bg-[#1c1c1c] mb-6 group-hover:w-full transition-all duration-500 ease-out" />
                 <p className="text-sm font-mono text-[#1c1c1c]/65 leading-relaxed">
@@ -616,166 +583,120 @@ const ServicesSection = () => {
   );
 };
 
-const ProjectsSection = () => {
-  const projects = [
-    { id: 7, title: 'BoxQ',      category: 'Fullstack / Procurement', image: BoxQImg,      pos: 'top',    description: 'End-to-end automated procurement platform. Features AI-powered OCR for intelligent invoice scanning, multi-tier approvals, and automated payment disbursements enforcing strict financial compliance.', tech: ['Vue.js','TypeScript','Laravel','MongoDB','Mindee AI','Xendit'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/boxq', commits: 'Live API Active' },
-    { id: 1, title: 'Grailify',  category: 'Fullstack / E-Commerce',  image: GrailifyImg,  pos: 'top',    description: 'Premier online marketplace for authentic sneakers, apparel, and collectibles. Built with a powerful Go backend and a responsive Next.js frontend.', tech: ['Next.js','Tailwind','Typescript','MySQL','GO','JWT'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/Grailify', commits: 'Deployed' },
-    { id: 2, title: 'CarShroom', category: 'Fullstack / Automotive',  image: CarShroomImg, pos: 'top',    description: 'Sophisticated web application for a high-end luxury and performance car dealership. Features a rich interactive frontend and a robust backend API to manage products.', tech: ['PHP','HTML5','CSS3','GO'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/CarShroom', commits: 'Stable Release' },
-    { id: 6, title: 'CoinLens',  category: 'Frontend / Crypto',       image: CoinLensImg,  pos: 'top',    description: 'Futuristic all-in-one crypto dashboard tracking live market data, analyzing trends with interactive charts, and exploring digital assets through personal watchlists.', tech: ['Next.js','Tailwind CSS','Typescript'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/coinlens', liveUrl: 'https://coinlens-phi.vercel.app/', commits: 'Real-time Feed' },
-    { id: 3, title: 'Futbol',    category: 'Frontend / Sports',       image: FutbolImg,    pos: 'center', description: 'Modern web-based application designed for football fans, coaches, and analysts. Intuitive platform to build team formations and explore detailed player stats.', tech: ['React.js','Tailwind CSS'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/futbol', liveUrl: 'https://futbol-dar.vercel.app/', commits: 'Production' },
-    { id: 5, title: 'Planify',   category: 'Fullstack / SaaS',        image: PlanifyImg,   pos: 'top',    description: 'Simple yet powerful project management tool. Features Kanban boards, drag-and-drop tasks, user profiles, and smart collaboration features.', tech: ['Next.js','Tailwind','Typescript','MySQL','GO','JWT'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/planify', commits: 'V1.2 Shipped' },
-    { id: 4, title: 'Muzik',     category: 'Frontend / Entertainment', image: MuzikImg,    pos: 'top',    description: 'Sleek modern web application for music enthusiasts. Clean interface to search for artists, explore discographies, and access direct lyrics.', tech: ['React.js','Typescript','Tailwind','Genius API'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/muzik', liveUrl: 'https://muzik-lyrics.vercel.app/', commits: 'API Integrated' },
-  ];
+const TiltCard = ({ children, className = "" }) => {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(useTransform(y, [-100, 100], [10, -10]), { damping: 30, stiffness: 200 });
+  const rotateY = useSpring(useTransform(x, [-100, 100], [-10, 10]), { damping: 30, stiffness: 200 });
+  const glareX = useTransform(x, [-100, 100], [0, 100]);
+  const glareY = useTransform(y, [-100, 100], [0, 100]);
+  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.2) 0%, transparent 60%)`;
 
-  const sectionRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isLocked, setIsLocked] = useState(false);
-  const activeIndexRef = useRef(0);
-  const isLockedRef = useRef(false);
-  const isAnimatingRef = useRef(false);
-  const accumulatedDeltaRef = useRef(0);
-  const SCROLL_THRESHOLD = 60;
+  const handleMouseMove = (e) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    x.set(e.clientX - rect.left - rect.width / 2);
+    y.set(e.clientY - rect.top - rect.height / 2);
+  };
 
-  const translateX = useMotionValue(0);
-  const smoothX = useSpring(translateX, { damping: 40, stiffness: 120, mass: 0.8 });
-
-  const updateActiveIndex = useCallback((newIndex) => {
-    activeIndexRef.current = newIndex;
-    setActiveIndex(newIndex);
-    translateX.set(-newIndex * 100);
-  }, [translateX]);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isLockedRef.current = entry.isIntersecting;
-        setIsLocked(entry.isIntersecting);
-      },
-      { threshold: 0.6 }
-    );
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handleWheel = (e) => {
-      if (!isLockedRef.current) return;
-
-      const current = activeIndexRef.current;
-      const isFirst = current === 0;
-      const isLast = current === projects.length - 1;
-
-      const scrollingDown = e.deltaY > 0;
-      const scrollingUp = e.deltaY < 0;
-
-      if (scrollingDown && isLast) return;
-      if (scrollingUp && isFirst) return;
-
-      e.preventDefault();
-
-      if (isAnimatingRef.current) return;
-
-      accumulatedDeltaRef.current += e.deltaY;
-
-      if (Math.abs(accumulatedDeltaRef.current) >= SCROLL_THRESHOLD) {
-        const direction = accumulatedDeltaRef.current > 0 ? 1 : -1;
-        const next = Math.min(projects.length - 1, Math.max(0, current + direction));
-
-        if (next !== current) {
-          isAnimatingRef.current = true;
-          updateActiveIndex(next);
-          setTimeout(() => {
-            isAnimatingRef.current = false;
-          }, 600);
-        }
-
-        accumulatedDeltaRef.current = 0;
-      }
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
-  }, [projects.length, updateActiveIndex]);
-
-  useEffect(() => {
-    let touchStartY = 0;
-    let touchStartX = 0;
-
-    const handleTouchStart = (e) => {
-      touchStartY = e.touches[0].clientY;
-      touchStartX = e.touches[0].clientX;
-    };
-
-    const handleTouchEnd = (e) => {
-      if (!isLockedRef.current) return;
-
-      const deltaY = touchStartY - e.changedTouches[0].clientY;
-      const deltaX = touchStartX - e.changedTouches[0].clientX;
-
-      if (Math.abs(deltaY) < 30 && Math.abs(deltaX) < 30) return;
-
-      const current = activeIndexRef.current;
-
-      if (Math.abs(deltaY) > Math.abs(deltaX)) {
-        const scrollingDown = deltaY > 0;
-        if (scrollingDown && current < projects.length - 1) {
-          updateActiveIndex(current + 1);
-        } else if (!scrollingDown && current > 0) {
-          updateActiveIndex(current - 1);
-        }
-      }
-    };
-
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
-    return () => {
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [projects.length, updateActiveIndex]);
-
-  const progressPercent = (activeIndex / (projects.length - 1)) * 100;
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
-    <section
-      id="projects"
-      ref={sectionRef}
-      className="relative h-screen bg-[#e4e2dd] border-b border-[#1c1c1c]/10 overflow-hidden"
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      className={`relative ${className} interactive`}
     >
-      <div className="h-full flex flex-col pt-20 md:pt-24 pb-4 md:pb-8">
-        <div className="px-4 sm:px-6 md:px-12 flex justify-between items-end mb-4 md:mb-6 z-10 flex-shrink-0">
-          <SectionTitle className="text-3xl sm:text-4xl md:text-6xl">
-            Selected<br />Works
-          </SectionTitle>
-          <div className="flex flex-col items-end gap-2">
-            <div className="font-mono text-xs tracking-widest uppercase opacity-40">
-              {String(activeIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-            </div>
-            <div className="w-24 h-[2px] bg-[#1c1c1c]/10 overflow-hidden">
-              <motion.div
-                className="h-full bg-[#1c1c1c]/60"
-                animate={{ width: `${progressPercent}%` }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              />
-            </div>
+      {children}
+      <motion.div
+        className="absolute inset-0 pointer-events-none rounded-inherit z-10"
+        style={{ background: glareBackground }}
+      />
+    </motion.div>
+  );
+};
+
+const AnimatedText = ({ text }) => {
+  if (typeof text !== 'string') return <>{text}</>;
+  const words = text.split(" ");
+  return (
+    <div className="flex flex-wrap gap-x-2 md:gap-x-4">
+      {words.map((word, i) => (
+        <div key={i} className="overflow-hidden">
+          <motion.span
+            className="inline-block"
+            initial={{ y: "100%" }}
+            whileInView={{ y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {word}
+          </motion.span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const SectionTitle = ({ children, className = '' }) => (
+  <motion.h2
+    className={`font-bold tracking-tighter text-[#1c1c1c] uppercase ${className}`}
+    initial={{ opacity: 0, y: 28 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-60px' }}
+    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+  >
+    {children}
+  </motion.h2>
+);
+
+const ProjectsSection = () => {
+  const targetRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: targetRef });
+
+  const projects = [
+    { id: 7, title: 'BoxQ',      category: 'Fullstack / Procurement', image: BoxQImg,      pos: 'top',    description: 'End-to-end automated procurement platform. Features AI-powered OCR for intelligent invoice scanning, multi-tier approvals, and automated payment disbursements enforcing strict financial compliance.', tech: ['Vue.js','TypeScript','Laravel','MongoDB','Mindee AI','Xendit'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/boxq' },
+    { id: 1, title: 'Grailify',  category: 'Fullstack / E-Commerce',  image: GrailifyImg,  pos: 'top',    description: 'Premier online marketplace for authentic sneakers, apparel, and collectibles. Built with a powerful Go backend and a responsive Next.js frontend.', tech: ['Next.js','Tailwind','Typescript','MySQL','GO','JWT'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/Grailify' },
+    { id: 2, title: 'CarShroom', category: 'Fullstack / Automotive',  image: CarShroomImg, pos: 'top',    description: 'Sophisticated web application for a high-end luxury and performance car dealership. Features a rich interactive frontend and a robust backend API to manage products.', tech: ['PHP','HTML5','CSS3','GO'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/CarShroom' },
+    { id: 6, title: 'CoinLens',  category: 'Frontend / Crypto',       image: CoinLensImg,  pos: 'top',    description: 'Futuristic all-in-one crypto dashboard tracking live market data, analyzing trends with interactive charts, and exploring digital assets through personal watchlists.', tech: ['Next.js','Tailwind CSS','Typescript'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/coinlens', liveUrl: 'https://coinlens-phi.vercel.app/' },
+    { id: 3, title: 'Futbol',    category: 'Frontend / Sports',       image: FutbolImg,    pos: 'center', description: 'Modern web-based application designed for football fans, coaches, and analysts. Intuitive platform to build team formations and explore detailed player stats.', tech: ['React.js','Tailwind CSS'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/futbol', liveUrl: 'https://futbol-dar.vercel.app/' },
+    { id: 5, title: 'Planify',   category: 'Fullstack / SaaS',        image: PlanifyImg,   pos: 'top',    description: 'Simple yet powerful project management tool. Features Kanban boards, drag-and-drop tasks, user profiles, and smart collaboration features.', tech: ['Next.js','Tailwind','Typescript','MySQL','GO','JWT'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/planify' },
+    { id: 4, title: 'Muzik',     category: 'Frontend / Entertainment', image: MuzikImg,    pos: 'top',    description: 'Sleek modern web application for music enthusiasts. Clean interface to search for artists, explore discographies, and access direct lyrics.', tech: ['React.js','Typescript','Tailwind','Genius API'], repoUrl: 'https://github.com/DarrenAnthonyBeltham/muzik', liveUrl: 'https://muzik-lyrics.vercel.app/' },
+  ];
+
+  const rawX = useTransform(scrollYProgress, [0, 1], ['0%', `-${(projects.length - 1) * 100}vw`]);
+  const x = useSpring(rawX, { damping: 40, stiffness: 120, mass: 0.8 });
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const unsub = scrollYProgress.on('change', (v) => {
+      setActiveIndex(Math.min(projects.length - 1, Math.max(0, Math.round(v * (projects.length - 1)))));
+    });
+    return () => unsub();
+  }, [scrollYProgress, projects.length]);
+
+  return (
+    <section id="projects" ref={targetRef} className="relative h-[700vh] bg-[#e4e2dd] border-b border-[#1c1c1c]/10">
+      <div className="sticky top-0 h-screen flex flex-col overflow-hidden pt-20 md:pt-24 pb-4 md:pb-8">
+        <div className="px-4 sm:px-6 md:px-12 flex justify-between items-end mb-4 md:mb-6 z-10">
+          <SectionTitle className="text-3xl sm:text-4xl md:text-6xl">Selected<br />Works</SectionTitle>
+          <div className="font-mono text-xs tracking-widest uppercase opacity-40">
+            {String(activeIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
           </div>
         </div>
 
-        <div className="relative flex-1 flex items-center min-h-0 overflow-hidden">
-          <motion.div
-            style={{ x: smoothX.get() !== undefined ? undefined : 0 }}
-            className="flex w-full absolute left-0 px-[5vw] sm:px-[8vw] md:px-[10vw]"
-          >
+        <div className="relative flex-1 flex items-center min-h-0">
+          <motion.div style={{ x }} className="flex w-full absolute left-0 px-[5vw] sm:px-[8vw] md:px-[10vw]">
             {projects.map((project, index) => {
               const isActive = index === activeIndex;
               return (
-                <div key={project.id} className="w-[90vw] sm:w-[75vw] md:w-[62vw] flex-shrink-0 px-2 md:px-4 flex justify-center"
-                  style={{ transform: `translateX(${(index - activeIndex) * 100}%)`, transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)', position: 'relative' }}
-                >
+                <div key={project.id} className="w-[90vw] sm:w-[75vw] md:w-[62vw] flex-shrink-0 px-2 md:px-4 flex justify-center">
                   <motion.div
                     animate={{
                       scale: isActive ? 1 : 0.88,
@@ -783,7 +704,7 @@ const ProjectsSection = () => {
                       filter: isActive ? 'grayscale(0%) brightness(1)' : 'grayscale(100%) brightness(0.8)',
                     }}
                     transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                    className="w-full aspect-[4/3] overflow-hidden bg-[#dcd9ce] border border-[#1c1c1c]/15 relative group"
+                    className="w-full aspect-[4/3] overflow-hidden bg-[#dcd9ce] border border-[#1c1c1c]/15"
                   >
                     <motion.img
                       src={project.image}
@@ -792,17 +713,7 @@ const ProjectsSection = () => {
                       style={{ objectPosition: project.pos }}
                       animate={{ scale: isActive ? 1 : 1.06 }}
                       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                      loading="lazy"
                     />
-                    <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-[#1c1c1c]/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out flex justify-between items-end">
-                      <div className="text-[#e4e2dd]">
-                        <div className="font-mono text-[10px] uppercase tracking-widest mb-1 opacity-70">GitHub Data</div>
-                        <div className="flex items-center gap-2 font-mono text-xs">
-                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                          {project.commits}
-                        </div>
-                      </div>
-                    </div>
                   </motion.div>
                 </div>
               );
@@ -810,7 +721,7 @@ const ProjectsSection = () => {
           </motion.div>
         </div>
 
-        <div className="px-4 sm:px-6 md:px-12 flex items-start md:items-center bg-[#e4e2dd] z-10 border-t border-[#1c1c1c]/10 pt-4 md:pt-0 mt-3 md:mt-6 min-h-[120px] md:h-44 flex-shrink-0">
+        <div className="px-4 sm:px-6 md:px-12 flex items-start md:items-center bg-[#e4e2dd] z-10 border-t border-[#1c1c1c]/10 pt-4 md:pt-0 mt-3 md:mt-6 min-h-[120px] md:h-44">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
@@ -821,18 +732,12 @@ const ProjectsSection = () => {
               className="w-full flex flex-col sm:flex-row justify-between gap-4 md:gap-8"
             >
               <div className="sm:w-1/2 md:w-1/3">
-                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-1">{"// 01 Description"}</div>
-                <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tighter mb-1 flex items-center gap-3">
-                  {projects[activeIndex].title}
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
-                </h3>
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-1">// 01 Description</div>
+                <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tighter mb-1">{projects[activeIndex].title}</h3>
                 <p className="text-xs text-[#1c1c1c]/65 leading-relaxed font-mono line-clamp-3 md:line-clamp-none">{projects[activeIndex].description}</p>
               </div>
               <div className="hidden sm:block sm:w-1/4 md:w-1/3">
-                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-1">{"// 02 Specifications"}</div>
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-1">// 02 Specifications</div>
                 <div className="flex flex-wrap gap-1.5">
                   {projects[activeIndex].tech.map(t => (
                     <span key={t} className="text-[10px] font-mono border border-[#1c1c1c]/18 px-2 py-0.5 uppercase">{t}</span>
@@ -840,16 +745,14 @@ const ProjectsSection = () => {
                 </div>
               </div>
               <div className="sm:w-1/4 md:w-1/3 flex flex-row sm:flex-col items-center sm:items-end gap-4 sm:gap-0">
-                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-0 sm:mb-2">{"// 03 Access"}</div>
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-0 sm:mb-2">// 03 Access</div>
                 <div className="flex gap-3">
-                  <a href={projects[activeIndex].repoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs font-bold uppercase hover:underline interactive group">
+                  <a href={projects[activeIndex].repoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs font-bold uppercase hover:underline">
                     <GitHubIcon className="w-3.5 h-3.5" /> Code
-                    <ArrowRightIcon className="w-3 h-3 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                   </a>
                   {projects[activeIndex].liveUrl && (
-                    <a href={projects[activeIndex].liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs font-bold uppercase hover:underline interactive group">
+                    <a href={projects[activeIndex].liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs font-bold uppercase hover:underline">
                       <ExternalLinkIcon className="w-3.5 h-3.5" /> Live
-                      <ArrowRightIcon className="w-3 h-3 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                     </a>
                   )}
                 </div>
@@ -857,44 +760,7 @@ const ProjectsSection = () => {
             </motion.div>
           </AnimatePresence>
         </div>
-
-        <div className="px-4 sm:px-6 md:px-12 flex-shrink-0 pb-2">
-          <div className="flex items-center justify-center gap-2">
-            {projects.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => updateActiveIndex(i)}
-                className="interactive"
-                aria-label={`Go to project ${i + 1}`}
-              >
-                <motion.div
-                  animate={{
-                    width: i === activeIndex ? 24 : 6,
-                    backgroundColor: i === activeIndex ? 'rgba(28,28,28,0.7)' : 'rgba(28,28,28,0.2)',
-                  }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-[3px] rounded-full"
-                />
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
-
-      {activeIndex < projects.length - 1 && (
-        <motion.div
-          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 pointer-events-none"
-          animate={{ opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <div className="font-mono text-[8px] uppercase tracking-widest text-[#1c1c1c]/40 [writing-mode:vertical-rl] rotate-180">scroll</div>
-          <motion.div
-            className="w-px bg-[#1c1c1c]/25"
-            animate={{ height: [16, 32, 16] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        </motion.div>
-      )}
     </section>
   );
 };
@@ -909,25 +775,85 @@ const ExperienceSection = () => (
           </SectionTitle>
         </div>
         <div className="md:w-2/3 border-t border-[#1c1c1c]/10 pt-8 md:pt-12">
+          
           <div className="flex justify-between items-start mb-6">
             <div>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold uppercase tracking-tighter">Web Developer Intern</h3>
-              <div className="font-mono text-xs text-[#1c1c1c]/55 uppercase tracking-widest mt-2">HashMicro & Associated Brands</div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold uppercase tracking-tighter">
+                Web Developer Intern
+              </h3>
+              <div className="font-mono text-xs text-[#1c1c1c]/55 uppercase tracking-widest mt-2">
+                HashMicro & Associated Brands
+              </div>
             </div>
-            <div className="font-mono text-xs border border-[#1c1c1c]/20 px-2 md:px-3 py-1 uppercase shrink-0 ml-4">1 Year</div>
+            <div className="font-mono text-xs border border-[#1c1c1c]/20 px-2 md:px-3 py-1 uppercase shrink-0 ml-4">
+              1 Year
+            </div>
           </div>
-          <div className="font-mono text-xs md:text-sm leading-relaxed text-[#1c1c1c]/70 space-y-5">
-            <p>During my one-year internship, I dove headfirst into real-world web development, focusing heavily on performance and user experience. I built, debugged, and redesigned web pages from the ground up, ensuring they were fully responsive and lightning-fast. A huge part of my day-to-day was tackling PageSpeed optimization—specifically fine-tuning Core Web Vitals like LCP to keep the sites ranking high and running smoothly.</p>
-            <p>I also worked closely cross-departmentally, building custom WordPress and PHP snippets to make life easier for our Content Writers and SEO teams. Ultimately, I was trusted to manage and optimize HashMicro's main 'moneysites' and regional blogs across five different markets (Indonesia, Singapore, Malaysia, the Philippines, and Australia), as well as handling the web presence for their child brands like Total ERP and EQUIP.</p>
+
+          <div className="font-mono text-xs md:text-sm text-[#1c1c1c]/70 space-y-4">
+            <div className="font-mono text-[10px] text-[#1c1c1c]/45 uppercase tracking-widest mb-2">
+              // Impact & Contributions
+            </div>
+
+            <ul className="space-y-3 leading-relaxed">
+              <li>• Optimized Core Web Vitals (LCP, CLS) across multiple high-traffic ERP pages, improving load performance and SEO rankings.</li>
+              <li>• Managed and maintained web platforms across <strong>5 international markets</strong> (ID, SG, MY, PH, TH).</li>
+              <li>• Built custom WordPress & PHP solutions to streamline workflows for SEO and content teams.</li>
+              <li>• Redesigned and rebuilt landing pages with a focus on performance, responsiveness, and scalability.</li>
+            </ul>
           </div>
+
+          <div className="mt-8 border border-[#1c1c1c]/10 p-4 md:p-6">
+            <div className="font-mono text-[10px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">
+              // Performance Impact (Representative)
+            </div>
+
+            <div className="grid grid-cols-2 gap-6 text-xs font-mono">
+              <div>
+                <div className="mb-2 text-[#1c1c1c]/50">Before</div>
+                <ul className="space-y-1">
+                  <li>LCP: ~4.0s+</li>
+                  <li>CLS: ~0.2+</li>
+                  <li>PageSpeed: ~60–70</li>
+                </ul>
+              </div>
+
+              <div>
+                <div className="mb-2 text-[#1c1c1c]/50">After</div>
+                <ul className="space-y-1">
+                  <li>LCP: ~1.8s</li>
+                  <li>CLS: &lt;0.05</li>
+                  <li>PageSpeed: 90+</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
           <div className="mt-8 md:mt-12">
-            <div className="font-mono text-[10px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">{"// Stack Deployed"}</div>
+            <div className="font-mono text-[10px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">
+              // Stack Deployed
+            </div>
             <div className="flex flex-wrap gap-2">
-              {['WordPress','PHP','MySQL','JavaScript','HTML5','CSS3','PageSpeed','SEO Ops'].map(tech => (
-                <span key={tech} className="font-mono text-[10px] bg-[#1c1c1c] text-[#e4e2dd] px-2 md:px-3 py-1 uppercase">{tech}</span>
+              {[
+                'WordPress',
+                'PHP',
+                'MySQL',
+                'JavaScript',
+                'HTML5',
+                'CSS3',
+                'PageSpeed',
+                'SEO Ops'
+              ].map(tech => (
+                <span
+                  key={tech}
+                  className="font-mono text-[10px] bg-[#1c1c1c] text-[#e4e2dd] px-2 md:px-3 py-1 uppercase"
+                >
+                  {tech}
+                </span>
               ))}
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -947,16 +873,16 @@ const ShowcaseSection = () => {
           <div key={idx} className="mb-16 md:mb-32">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 md:mb-12 border-b border-[#1c1c1c]/15 pb-4">
               <div>
-                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-2">{"// " + String(idx + 1).padStart(2, '0') + " Category"}</div>
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-2">// {String(idx + 1).padStart(2, '0')} Category</div>
                 <h3 className="text-xl md:text-3xl font-bold uppercase tracking-tighter">{cat.title}</h3>
               </div>
               {cat.docsLink && (
-                <a href={cat.docsLink} target="_blank" rel="noopener noreferrer" className="font-mono text-xs font-bold uppercase hover:underline flex items-center gap-2 mt-3 sm:mt-0 interactive group">
-                  Documentation <ExternalLinkIcon className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
+                <a href={cat.docsLink} target="_blank" rel="noopener noreferrer" className="font-mono text-xs font-bold uppercase hover:underline flex items-center gap-2 mt-3 sm:mt-0">
+                  Documentation <ExternalLinkIcon className="w-3.5 h-3.5" />
                 </a>
               )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 bg-[#1c1c1c] border border-[#1c1c1c]">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#1c1c1c]/15 border border-[#1c1c1c]/15">
               {cat.images.map((img, imgIdx) => (
                 <motion.div
                   key={imgIdx}
@@ -964,17 +890,19 @@ const ShowcaseSection = () => {
                   whileInView={{ opacity: 1, filter: 'grayscale(0%)' }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 1.1, delay: (imgIdx % 4) * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="aspect-[4/3] bg-[#e4e2dd] relative group overflow-hidden border border-[#1c1c1c]/20"
+                  className="aspect-[4/3] bg-[#e4e2dd] relative group overflow-hidden"
                 >
                   <motion.img
                     src={img}
                     alt={`Showcase ${imgIdx + 1}`}
-                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover object-top"
+                    whileHover={{ scale: 1.06 }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-[#1c1c1c]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                    <a href={img} target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] text-[#e4e2dd] border border-[#e4e2dd] px-3 md:px-4 py-1.5 uppercase hover:bg-[#e4e2dd] hover:text-[#1c1c1c] transition-colors duration-300 interactive">
-                      Expand View
+                    <a href={img} target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] text-[#e4e2dd] border border-[#e4e2dd] px-3 md:px-4 py-1.5 uppercase hover:bg-[#e4e2dd] hover:text-[#1c1c1c] transition-colors duration-300">
+                      View Full
                     </a>
                   </div>
                 </motion.div>
@@ -1060,39 +988,61 @@ const TechNotesSection = () => {
 
 const ProfileSection = () => (
   <section id="profile" className="w-full py-20 md:py-32 px-4 sm:px-6 md:px-12 relative pb-48">
-    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-24">
-      <div>
+    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16">
+      
+      <div className="md:col-span-5 flex flex-col justify-start">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, rotate: -3 }}
+          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          whileHover={{ scale: 1.02, rotate: 1 }}
+          className="w-full aspect-square bg-[#dcd9ce] border border-[#1c1c1c]/20 p-2 shadow-sm relative group overflow-hidden"
+        >
+          <img 
+            src="https://placehold.co/800x800/1c1c1c/e4e2dd?text=Profile" 
+            alt="Darren Anthony Beltham" 
+            className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 ease-out"
+          />
+        </motion.div>
+      </div>
+
+      <div className="md:col-span-7 flex flex-col justify-center">
         <SectionTitle className="text-3xl sm:text-4xl md:text-6xl mb-6 md:mb-8">Manifesto</SectionTitle>
         <div className="font-mono text-xs md:text-sm leading-relaxed text-[#1c1c1c]/70 space-y-5">
           <p>I'm a final-semester Computer Science student <strong className="text-[#1c1c1c]">(Current GPA: 3.62)</strong> awaiting graduation, with a genuine passion for building clean, user-centric web applications. I specialize in bridging the gap between design and engineering, transforming complex requirements into intuitive, highly interactive interfaces using React and Tailwind CSS.</p>
           <p>Beyond the frontend, I have hands-on experience architecting reliable backend systems and RESTful APIs using Go and MySQL. I approach every project with a problem-solving mindset, striving to write efficient, maintainable code. For me, development is about more than just making things work—it's about crafting seamless digital experiences that deliver real value.</p>
         </div>
-        <MagneticElement strength={0.2} className="mt-8">
-          <a href="/resume.pdf" target="_blank" className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest border-b-2 border-[#1c1c1c] pb-1 hover:text-sky-700 hover:border-sky-700 transition-colors interactive group">
-            Download Curriculum Vitae <ExternalLinkIcon className="w-3 h-3 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
-          </a>
-        </MagneticElement>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 content-start">
-        {[
-          { title: 'Frontend', skills: ['React','Next.js','Vue.js','Tailwind','JavaScript','HTML5'] },
-          { title: 'Backend',  skills: ['Go','PHP','Laravel','MySQL','Supabase'] },
-          { title: 'Tools',    skills: ['WordPress','Figma','Git','PageSpeed'] },
-        ].map((block, i) => (
-          <motion.div
-            key={i}
-            className="border border-[#1c1c1c]/18 p-4 md:p-5"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h3 className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">{"// " + block.title}</h3>
-            <ul className="font-mono text-xs font-bold uppercase space-y-1.5">
-              {block.skills.map(s => <li key={s}>{s}</li>)}
-            </ul>
-          </motion.div>
-        ))}
+        
+        <div className="mt-8 mb-12">
+          <MagneticElement strength={0.2}>
+            <a href="/resume.pdf" target="_blank" className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest border-b-2 border-[#1c1c1c] pb-1 hover:text-sky-700 hover:border-sky-700 transition-colors interactive group">
+              Download Curriculum Vitae <ExternalLinkIcon className="w-3 h-3 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+            </a>
+          </MagneticElement>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 lg:gap-8 content-start">
+          {[
+            { title: 'Frontend', skills: ['React','Next.js','Vue.js','Tailwind', 'Bootstrap', 'JavaScript','HTML5'] },
+            { title: 'Backend',  skills: ['Go','PHP','Laravel','MySQL','Supabase', 'MongoDB'] },
+            { title: 'Tools',    skills: ['WordPress','Figma','Git','PageSpeed'] },
+          ].map((block, i) => (
+            <motion.div
+              key={i}
+              className="border border-[#1c1c1c]/18 p-4 md:p-5"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <h3 className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">{"// " + block.title}</h3>
+              <ul className="font-mono text-xs font-bold uppercase space-y-1.5">
+                {block.skills.map(s => <li key={s}>{s}</li>)}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
 
@@ -1115,7 +1065,7 @@ const FloatingCTA = () => {
       <MagneticElement strength={0.25}>
         <motion.a
           href="mailto:darrenanthonybeltham@gmail.com"
-          className="group relative flex items-center overflow-hidden interactive"
+          className="group relative flex items-center overflow-hidden interactive shadow-2xl rounded-full"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           initial={{ opacity: 0, y: 20 }}
@@ -1134,7 +1084,7 @@ const FloatingCTA = () => {
               transition={{ duration: 2, repeat: Infinity }}
             />
             <span className="font-mono text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] whitespace-nowrap">
-              Hire Me
+              Work With Me
             </span>
             <motion.div
               className="absolute right-5 flex items-center"
@@ -1194,7 +1144,7 @@ const ScrollToTop = () => {
 
 export default function App() {
   return (
-    <div className="w-full relative font-sans bg-[#e4e2dd] text-[#1c1c1c] selection:bg-[#1c1c1c] selection:text-[#e4e2dd] cursor-none overflow-x-hidden">
+    <div className="w-full relative font-sans bg-[#e4e2dd] text-[#1c1c1c] selection:bg-[#1c1c1c] selection:text-[#e4e2dd] cursor-none">
       <FaviconAnimator />
       <Preloader />
       <BackgroundGrid />
