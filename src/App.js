@@ -253,30 +253,6 @@ const ProjectsView = ({ setSelectedProject }) => {
     );
 };
 
-const SkillGauge = ({ skill, percentage, inView }) => {
-    const controls = useAnimation();
-    const strokeDasharray = 2 * Math.PI * 40;
-    const strokeDashoffset = strokeDasharray * (1 - percentage / 100);
-    useEffect(() => {
-        if (inView) {
-            controls.start({ strokeDashoffset: strokeDashoffset, transition: { duration: 1.5, ease: "circOut", delay: 0.2 } });
-        }
-    }, [inView, controls, strokeDashoffset]);
-    return (
-        <div className="flex flex-col items-center">
-            <div className="relative w-32 h-32">
-                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                     <circle cx="50" cy="50" r="40" stroke="#2a2a2a" strokeWidth="8" fill="transparent" />
-                     <motion.circle cx="50" cy="50" r="40" stroke="url(#gradient)" strokeWidth="8" fill="transparent" strokeLinecap="round" strokeDasharray={strokeDasharray} initial={{ strokeDashoffset: strokeDasharray }} animate={controls}/>
-                     <defs><linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stopColor="#cccccc" /><stop offset="100%" stopColor="#777777" /></linearGradient></defs>
-                 </svg>
-                 <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-bold">{percentage}%</div>
-            </div>
-            <p className="mt-2 text-sm font-medium text-white">{skill}</p>
-        </div>
-    );
-};
-
 const ProfileView = () => {
     const skillCategories = [
         {
