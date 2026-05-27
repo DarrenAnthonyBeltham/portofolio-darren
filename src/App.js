@@ -135,12 +135,6 @@ const ScrollProgress = () => {
   );
 };
 
-/* ─── BACKGROUND ─────────────────────────────────────────────────────────────
-   Three subtle layers:
-   1. Static fine grid (pure CSS, no Framer overhead)
-   2. Two large soft blobs that drift on a very slow keyframe cycle
-   3. A faint vignette edge to give depth
-──────────────────────────────────────────────────────────────────────────── */
 const BackgroundGrid = () => (
   <>
     <style>{`
@@ -622,28 +616,6 @@ const TiltCard = ({ children, className = "" }) => {
   );
 };
 
-const AnimatedText = ({ text }) => {
-  if (typeof text !== 'string') return <>{text}</>;
-  const words = text.split(" ");
-  return (
-    <div className="flex flex-wrap gap-x-2 md:gap-x-4">
-      {words.map((word, i) => (
-        <div key={i} className="overflow-hidden">
-          <motion.span
-            className="inline-block"
-            initial={{ y: "100%" }}
-            whileInView={{ y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {word}
-          </motion.span>
-        </div>
-      ))}
-    </div>
-  );
-};
-
 const SectionTitle = ({ children, className = '' }) => (
   <motion.h2
     className={`font-bold tracking-tighter text-[#1c1c1c] uppercase ${className}`}
@@ -732,12 +704,12 @@ const ProjectsSection = () => {
               className="w-full flex flex-col sm:flex-row justify-between gap-4 md:gap-8"
             >
               <div className="sm:w-1/2 md:w-1/3">
-                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-1">// 01 Description</div>
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-1">{"// 01 Description"}</div>
                 <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tighter mb-1">{projects[activeIndex].title}</h3>
                 <p className="text-xs text-[#1c1c1c]/65 leading-relaxed font-mono line-clamp-3 md:line-clamp-none">{projects[activeIndex].description}</p>
               </div>
               <div className="hidden sm:block sm:w-1/4 md:w-1/3">
-                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-1">// 02 Specifications</div>
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-1">{"// 02 Specifications"}</div>
                 <div className="flex flex-wrap gap-1.5">
                   {projects[activeIndex].tech.map(t => (
                     <span key={t} className="text-[10px] font-mono border border-[#1c1c1c]/18 px-2 py-0.5 uppercase">{t}</span>
@@ -745,7 +717,7 @@ const ProjectsSection = () => {
                 </div>
               </div>
               <div className="sm:w-1/4 md:w-1/3 flex flex-row sm:flex-col items-center sm:items-end gap-4 sm:gap-0">
-                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-0 sm:mb-2">// 03 Access</div>
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-0 sm:mb-2">{"// 03 Access"}</div>
                 <div className="flex gap-3">
                   <a href={projects[activeIndex].repoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs font-bold uppercase hover:underline">
                     <GitHubIcon className="w-3.5 h-3.5" /> Code
@@ -792,7 +764,7 @@ const ExperienceSection = () => (
 
           <div className="font-mono text-xs md:text-sm text-[#1c1c1c]/70 space-y-4">
             <div className="font-mono text-[10px] text-[#1c1c1c]/45 uppercase tracking-widest mb-2">
-              // Impact & Contributions
+              {"// Impact & Contributions"}
             </div>
 
             <ul className="space-y-3 leading-relaxed">
@@ -805,7 +777,7 @@ const ExperienceSection = () => (
 
           <div className="mt-8 border border-[#1c1c1c]/10 p-4 md:p-6">
             <div className="font-mono text-[10px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">
-              // Performance Impact (Representative)
+              {"// Performance Impact (Representative)"}
             </div>
 
             <div className="grid grid-cols-2 gap-6 text-xs font-mono">
@@ -831,7 +803,7 @@ const ExperienceSection = () => (
 
           <div className="mt-8 md:mt-12">
             <div className="font-mono text-[10px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">
-              // Stack Deployed
+              {"// Stack Deployed"}
             </div>
             <div className="flex flex-wrap gap-2">
               {[
@@ -873,7 +845,9 @@ const ShowcaseSection = () => {
           <div key={idx} className="mb-16 md:mb-32">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 md:mb-12 border-b border-[#1c1c1c]/15 pb-4">
               <div>
-                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-2">// {String(idx + 1).padStart(2, '0')} Category</div>
+                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-2">
+                  {`// ${String(idx + 1).padStart(2, '0')} Category`}
+                </div>
                 <h3 className="text-xl md:text-3xl font-bold uppercase tracking-tighter">{cat.title}</h3>
               </div>
               {cat.docsLink && (
