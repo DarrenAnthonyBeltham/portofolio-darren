@@ -889,77 +889,6 @@ const ShowcaseSection = () => {
   );
 };
 
-const TechNotesSection = () => {
-  const notes = [
-    { title: "Achieving a 99 PageSpeed Score on ERP Architecture", tags: ["Performance", "Core Web Vitals"], date: "SEP 24", excerpt: "An deep dive into asset deferral, CLS mitigation, and LCP tuning that brought our monolithic ERP platform to near-instant speeds." },
-    { title: "Why I Chose Go over PHP for High-Concurrency Microservices", tags: ["Backend", "Architecture"], date: "OCT 24", excerpt: "Analyzing the bottleneck limitations of standard PHP execution models compared to Go's goroutines for heavy data ingestion." },
-    { title: "The 3-Way Match: Automating Procurement via AI & OCR", tags: ["AI", "Vue.js", "Laravel"], date: "NOV 24", excerpt: "Integrating Mindee AI to scan vendor invoices and cross-reference them against internal PO data securely using a Laravel proxy." }
-  ];
-
-  const svgLineVariants = {
-    hidden: { pathLength: 0 },
-    visible: { pathLength: 1, transition: { duration: 1.5, ease: "easeInOut" } }
-  };
-
-  return (
-    <section id="notes" className="w-full py-20 md:py-32 px-4 sm:px-6 md:px-12 border-b border-[#1c1c1c]/10 relative">
-      <div className="absolute top-0 left-0 w-full overflow-hidden">
-        <motion.svg className="w-full h-[2px]" preserveAspectRatio="none">
-          <motion.line x1="0" y1="1" x2="100%" y2="1" stroke="rgba(28,28,28,0.15)" strokeWidth="2" variants={svgLineVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} />
-        </motion.svg>
-      </div>
-      
-      <div className="max-w-7xl mx-auto">
-        <SectionTitle className="text-3xl sm:text-4xl md:text-6xl mb-12">Technical Notes</SectionTitle>
-        <div className="flex flex-col gap-px bg-[#1c1c1c]/10 border border-[#1c1c1c]/10">
-          {notes.map((note, i) => (
-            <motion.div 
-              key={i} 
-              className="bg-[#e4e2dd] p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 group cursor-pointer interactive"
-              initial={{ height: "auto" }}
-              whileHover={{ backgroundColor: "rgba(28,28,28,0.02)" }}
-            >
-              <div className="flex-1">
-                <div className="font-mono text-[9px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">{note.date}</div>
-                <h3 className="text-lg md:text-xl font-bold uppercase tracking-tighter group-hover:underline decoration-[#1c1c1c]/30 underline-offset-4">{note.title}</h3>
-                <div className="grid transition-all duration-500 ease-[0.16,1,0.3,1] grid-rows-[0fr] group-hover:grid-rows-[1fr] opacity-0 group-hover:opacity-100">
-                  <div className="overflow-hidden">
-                    <div className="relative pt-4">
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#1c1c1c]/5 to-transparent -translate-x-full animate-shimmer" />
-                      <p className="text-sm font-mono text-[#1c1c1c]/60 max-w-2xl">
-                        {note.excerpt}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col items-start md:items-end gap-4 shrink-0">
-                <div className="flex gap-2">
-                  {note.tags.map((tag, j) => (
-                    <motion.span 
-                      key={tag} 
-                      className="font-mono text-[9px] border border-[#1c1c1c]/20 px-2 py-1 uppercase bg-[#e4e2dd]"
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.2 + (j * 0.1), type: "spring", stiffness: 200 }}
-                    >
-                      {tag}
-                    </motion.span>
-                  ))}
-                </div>
-                <div className="hidden md:flex items-center gap-2 font-mono text-[10px] uppercase font-bold text-[#1c1c1c]/0 group-hover:text-[#1c1c1c] transition-colors">
-                  Read Article <ArrowRightIcon className="w-3 h-3 translate-x-[-10px] group-hover:translate-x-0 transition-transform" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const ProfileSection = () => (
   <section id="profile" className="w-full py-20 md:py-32 px-4 sm:px-6 md:px-12 relative pb-48">
     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16">
@@ -1132,7 +1061,6 @@ export default function App() {
         <ProjectsSection />
         <ExperienceSection />
         <ShowcaseSection />
-        <TechNotesSection />
         <ProfileSection />
       </main>
       <FloatingCTA />
