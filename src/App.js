@@ -359,7 +359,7 @@ const NavBar = () => {
           <span className="hidden sm:block opacity-70">Jakarta, ID</span>
         </div>
         <div className="hidden md:flex gap-6 lg:gap-8">
-          {['services', 'projects', 'showcase', 'notes', 'profile'].map((item, i) => (
+          {['services', 'projects', 'showcase', 'profile'].map((item, i) => (
             <button key={item} onClick={() => scrollTo(item)} className="hover:line-through transition-all duration-200 opacity-80 hover:opacity-100 interactive">
               {`00${i + 1}/${item}`}
             </button>
@@ -664,11 +664,11 @@ const ProjectsSection = () => {
         </div>
 
         <div className="relative flex-1 flex items-center min-h-0">
-          <motion.div style={{ x }} className="flex w-full absolute left-0 px-[5vw] sm:px-[8vw] md:px-[10vw]">
+          <motion.div style={{ x }} className="flex w-full h-full absolute left-0 items-center">
             {projects.map((project, index) => {
               const isActive = index === activeIndex;
               return (
-                <div key={project.id} className="w-[90vw] sm:w-[75vw] md:w-[62vw] flex-shrink-0 px-2 md:px-4 flex justify-center">
+                <div key={project.id} className="w-[100vw] flex-shrink-0 px-[5vw] sm:px-[12.5vw] md:px-[19vw] flex justify-center">
                   <motion.div
                     animate={{
                       scale: isActive ? 1 : 0.88,
