@@ -25,7 +25,7 @@ import IndustryBentoImg from './assets/industry-bento.jpeg';
 import SolusiRadarImg from './assets/solusi-radar.jpeg';
 import ScalemindAiImg from './assets/Scalemind-AI.jpeg';
 import BlogHomeImg from './assets/blog-homepage.jpeg';
-import ArticleBlogImg from './assets/article-page.jpeg';
+import ArticleBlogImg from './assets/article-blog-scaleocean.jpeg';
 import ProfilePicImg from './assets/profile-pic.jpeg';
 
 const GitHubIcon = ({ className }) => (
