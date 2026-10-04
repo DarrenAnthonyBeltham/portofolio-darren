@@ -18,6 +18,16 @@ import TotalERPProductImg from './assets/TotalERP-ProductPage.jpeg';
 import EquipProductImg from './assets/EQUIP-ProductPage.jpeg';
 import EquipIndustryImg from './assets/EQUIP-IndustryPage.jpeg';
 
+import ScaleOceanHomeImg from './assets/homepage-scaleocean.jpeg';
+import HomepageAboutUsImg from './assets/homepage-about-us-scaleocean.jpeg';
+import AboutUsSect2Img from './assets/about-us-sect2.jpeg';
+import IndustryBentoImg from './assets/industry-bento.jpeg';
+import SolusiRadarImg from './assets/solusi-radar.jpeg';
+import ScalemindAiImg from './assets/Scalemind-AI.jpeg';
+import BlogHomeImg from './assets/blog-homepage.jpeg';
+import ArticleBlogImg from './assets/article-page.jpeg';
+import ProfilePicImg from './assets/profile-pic.jpeg';
+
 const GitHubIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
@@ -524,18 +534,18 @@ const ServicesSection = () => {
   const services = [
     {
       id: "01",
-      title: "Performance Engineering",
-      desc: "Deep optimization of Core Web Vitals (LCP, CLS, FID) to elevate Google rankings and ensure lightning-fast user retention across global deployments.",
+      title: "Full-Stack Web Applications",
+      desc: "Building complex, data-intensive SaaS and marketplace platforms utilizing React, Next.js, and Vue.js, backed by robust Go and Laravel infrastructures.",
     },
     {
       id: "02",
-      title: "Custom Web Architecture",
-      desc: "Building tailored, secure themes and plugins without relying on bloated page builders. Pristine, semantic code structured for massive scalability.",
+      title: "Enterprise Process Automation",
+      desc: "Developing intelligent internal tools like procurement systems and ERPs with advanced features such as AI-powered OCR, multi-tier approvals, and financial integrations.",
     },
     {
       id: "03",
-      title: "End-to-End Solutions",
-      desc: "Full-stack development bridging robust Go/Laravel backend infrastructure with high-fidelity, interactive React and Vue.js frontends.",
+      title: "Interactive Dashboards & UI",
+      desc: "Crafting highly interactive, responsive data visualization dashboards for crypto and sports analytics, focusing on pristine semantic code and seamless user experiences.",
     }
   ];
 
@@ -681,7 +691,7 @@ const ProjectsSection = () => {
                     <motion.img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain p-4"
                       style={{ objectPosition: project.pos }}
                       animate={{ scale: isActive ? 1 : 1.06 }}
                       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
@@ -748,6 +758,63 @@ const ExperienceSection = () => (
         </div>
         <div className="md:w-2/3 border-t border-[#1c1c1c]/10 pt-8 md:pt-12">
           
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold uppercase tracking-tighter">
+                Web Developer
+              </h3>
+              <div className="font-mono text-xs text-[#1c1c1c]/55 uppercase tracking-widest mt-2">
+                ScaleOcean
+              </div>
+            </div>
+            <div className="font-mono text-xs border border-[#1c1c1c]/20 px-2 md:px-3 py-1 uppercase shrink-0 ml-4">
+              Present
+            </div>
+          </div>
+
+          <div className="font-mono text-xs md:text-sm text-[#1c1c1c]/70 space-y-4">
+            <div className="font-mono text-[10px] text-[#1c1c1c]/45 uppercase tracking-widest mb-2">
+              {"// Impact & Contributions"}
+            </div>
+
+            <ul className="space-y-3 leading-relaxed">
+              <li>• Spearheaded the complete from-scratch revamp of the ScaleOcean platform, architecting a high-performance, SEO-optimized frontend using Next.js 16 App Router and React 19.</li>
+              <li>• Engineered a decoupled Headless WordPress CMS infrastructure with custom PHP REST APIs, establishing a secure content pipeline and strict data sanitization protocols.</li>
+              <li>• Architected a comprehensive multi-locale internationalization (i18n) system for the Indonesia, Singapore, and Philippines markets, streamlining regional content delivery.</li>
+              <li>• Developed a highly tailored lead capture engine featuring advanced marketing attribution and GTM tracking, enabling granular user tracking to optimize digital campaign ROI.</li>
+              <li>• Implemented aggressive asset compression and modern rendering strategies, ensuring lightning-fast load times and elevating organic search visibility across all target regions.</li>
+            </ul>
+          </div>
+
+          <div className="mt-8 md:mt-12">
+            <div className="font-mono text-[10px] text-[#1c1c1c]/45 uppercase tracking-widest mb-3">
+              {"// Stack Deployed"}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {[
+                'Next.js 16',
+                'React 19',
+                'TypeScript',
+                'Tailwind CSS v4',
+                'Headless WP',
+                'PHP',
+                'i18n',
+                'SEO',
+                'Docker',
+                'GTM'
+              ].map(tech => (
+                <span
+                  key={tech}
+                  className="font-mono text-[10px] bg-[#1c1c1c] text-[#e4e2dd] px-2 md:px-3 py-1 uppercase"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="w-full h-px bg-[#1c1c1c]/10 my-12 md:my-16" />
+
           <div className="flex justify-between items-start mb-6">
             <div>
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold uppercase tracking-tighter">
@@ -834,6 +901,7 @@ const ExperienceSection = () => (
 
 const ShowcaseSection = () => {
   const categories = [
+    { title: 'ScaleOcean', images: [ScaleOceanHomeImg, HomepageAboutUsImg, AboutUsSect2Img, IndustryBentoImg, SolusiRadarImg, ScalemindAiImg, BlogHomeImg, ArticleBlogImg] },
     { title: 'Moneysites (HashMicro)', images: [HashMicroHomeImg, HashMicroProductImg, HashMicroSolutionImg, HashMicroAiImg] },
     { title: 'WP Platforms', docsLink: 'https://docs.google.com/document/d/1GStjjdS5DLBruSzykAdbTUv-J3NPsT3w2HrOLNM2YUg/edit?usp=sharing', images: [TotalERPHomeImg, TotalERPProductImg, EquipProductImg, EquipIndustryImg] },
   ];
@@ -903,7 +971,7 @@ const ProfileSection = () => (
           className="w-full aspect-square bg-[#dcd9ce] border border-[#1c1c1c]/20 p-2 shadow-sm relative group overflow-hidden"
         >
           <img 
-            src="https://placehold.co/800x800/1c1c1c/e4e2dd?text=Profile" 
+            src={ProfilePicImg}
             alt="Darren Anthony Beltham" 
             className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 ease-out"
           />
